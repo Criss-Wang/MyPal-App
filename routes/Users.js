@@ -22,7 +22,6 @@ users.post('/register', (req, res) => {
         email: req.body.email
     })
         .then(user => {
-            console.log(user)
             if (!user) {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     userData.password = hash
@@ -53,7 +52,8 @@ users.post('/login', (req, res) => {
                     const payload = {
                         _id: user._id,
                         username: user.username,
-                        email: user.email
+                        email: user.email,
+                        infoId: user.infoId
                     }
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
                         expiresIn: 1440
@@ -69,6 +69,12 @@ users.post('/login', (req, res) => {
         .catch(err => {
             res.send('error: ' + err)
         })
+})
+
+users.put('/update/:id', (req, res) =>{
+    User.findByIdAndUpdate({_id:req.params.id},req.body)
+        .then(() => {
+            console.log('Userinfo Created!')}) 
 })
 
 users.get('/dashboard', (req, res) => {
@@ -87,6 +93,7 @@ users.get('/dashboard', (req, res) => {
         .catch(err => {
             res.send('error: ' + err)
         })
-})
+}) 
+
 
 module.exports = users

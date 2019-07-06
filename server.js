@@ -21,10 +21,12 @@ mongoose
 var Users = require('./routes/Users')
 var Groups = require('./routes/Groups')
 var Contacts = require('./routes/Contacts')
+var Personals = require('./routes/Personals')
 
 app.use('/users', Users)
 app.use('/groups', Groups)
 app.use('/contacts', Contacts)
+app.use('/personals', Personals)
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
