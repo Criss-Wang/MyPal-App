@@ -30,7 +30,25 @@ contacts.put('/updatecontact/:id', (req, res) =>{
             Contact.find({}).then((contacts)=> {
                 res.json(contacts)}) 
         })
-}) 
+})
+
+contacts.put('/synccontact/:id', (req, res) =>{
+    Contact.findByIdAndUpdate({_id:req.params.id},
+                            {$push: {Group: req.body.gn}})
+        .then(() => {
+            console.log('sync successful')
+            res.json('sync successful')
+        })
+})
+
+contacts.put('/syncDelcontact/:id', (req, res) =>{
+    Contact.findByIdAndUpdate({_id:req.params.id},
+                            {$pull: {Group: req.body.gn}})
+        .then(() => {
+            console.log('sync Del successful')
+            res.json('sync Del successful')
+        })
+})
 
 contacts.delete('/deletecontact/:id', (req, res) =>{
     Contact.findByIdAndDelete({_id:req.params.id})

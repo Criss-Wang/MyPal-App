@@ -4,12 +4,10 @@ const Schema = mongoose.Schema
 const EventSchema = new Schema({
     EventName: {
         type: String,
-        required: true,
         default: 'event name'
     },
     EventDate: {
         type: Date,
-        required: true,
         default: Date.now()
     },
     EventNote: {
@@ -21,6 +19,14 @@ const GroupSchema = new Schema({
     name: {
         type: [String],
         required: true
+    },
+    img: {
+        type: [String],
+        default: []
+    },
+    id: {
+        type: [String],
+        default: []
     },
     Events: [EventSchema],
     GroupName: {
