@@ -1,0 +1,366 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui.scss";
+
+// Temp fix for reactstrap
+@import '~@coreui/coreui/scss/_dropdown-menu-right.scss';
+
+// If you want to add something do it here
+@import "custom";
+
+//Global setting
+.btn:active,
+.btn:focus,
+.btn:hover,
+.btn:visited{
+  outline: none !important;
+  box-shadow: none;
+  text-decoration:none;
+}
+
+//InfoSheet Modal
+.add-btn{
+    border-width: 2px;
+    font-weight: 550;
+}
+.add-btn:hover,
+.add-btn:focus,
+.add-btn:active{
+    color: white;
+}
+
+.modal-title{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#modalCenter{
+    top:30%;
+    transform:translateY(-30%) !important;
+    border: none;
+  }
+
+#fa-pin{
+    margin-top: 3px;
+}
+
+//Default Header
+.nav-link #reminder{
+    color: #c8ced3;
+}
+
+#reminder:hover
+{
+    color: #fff !important;
+}
+
+#reminder2{
+    color: #c8ced3 !important;
+}
+
+#reminder2:hover
+{
+    color: #fff !important;
+}
+
+img.user-icon-header{
+    border: 2px solid white !important;
+
+}
+
+.frameheader{
+    background-color: rgba(47, 53, 58,0.9);
+    border:none;
+}
+
+// Default Footer
+.UrlLink2{
+    color: #000;
+}
+
+//InfoSheet2
+#modalbtn:hover{
+    background: transparent;
+}
+#modalbtn{
+    border:none;
+}
+.cancel, .cancel:hover, .cancel:focus, .cancel:active
+{
+    background: transparent !important;
+    padding: 0;
+    padding-top: 0;
+    padding-bottom: 1px;
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white !important;
+    border: none !important;
+    font-size: 10px;
+}
+//DashBoard
+.dash-card{
+    max-height: 450px;
+}
+
+.Username{
+    color: #63c2de;
+    background-color: transparent;
+    border: none;
+    padding-right: 0;
+    padding-top: 5px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.user-tag{
+    font-size: 1em;
+    margin-right: 0.6em;
+}
+
+.break1{
+    width:18%;
+}
+
+.break2{
+    width: 23%;
+}
+
+.card3-head{
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 2px;
+}
+
+.male{
+    color: #63c2de;
+}
+.female{
+    color: #f86c6b;
+}
+#analysis_sum_break{
+    margin-left: 0;
+}
+
+.monthsum{
+    margin-bottom: 1rem;
+}
+
+//Contact Page
+.pagi-header{
+    padding-top: 0.25em;
+}
+
+.page-container:after {
+    content: '.';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+.page-container {
+    zoom: 1;
+}
+
+.page-container li {
+    list-style: none;
+    float: right;
+    padding: 0px 0px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    margin-right: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #20a8d8;
+    background: #fff;
+    border-color: #20a8d8;
+    font-weight: 560;
+
+}
+
+.page-container li:last-child {
+    margin-right: 7px;
+    width:26px;
+}
+
+.page-container li:first-child {
+    margin-left: 3px;
+    margin-right: 1.8rem;
+    width: 26px;
+}
+
+.activePage, 
+.page-container li:hover {
+    color: #fff !important;
+    background: #20a8d8 !important;
+    border-color: #20a8d8 !important;
+}
+
+.page-container li.nomore, .page-container li.nomore:hover{
+    color: rgb(182, 182, 182) !important;
+    border-color: rgb(182, 182, 182) !important;
+    background:  transparent !important;
+    cursor: not-allowed !important;
+}
+
+.page-container li.ign:hover{
+    border:none !important;
+    background-color: white !important;
+    color: #20a8d8 !important;
+    cursor: default !important
+}
+
+.page-container li.ign{
+    border:none !important;
+    background-color: White !important;
+    width: 20px !important;
+}
+
+.delete#modalCenter{
+    border: none;
+}
+.modalbody{
+    border:none;
+}
+.modalheader{
+    background: #000;
+    color: white;
+
+}
+.export, .export.hover{
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.social-btn, .social-btn:hover, .social-btn:focus, .social-btn:active{
+    color:white !important;
+    text-decoration: none !important;
+}
+//Group
+.people_ex{
+    font-size: 0.75rem;
+}
+.gp_event{
+    font-size: 12px;
+    border-left: 1px double #20a8d8;
+}
+
+.group{
+    height:17rem;
+}
+
+.amount{
+    font-size: 0.75rem;
+}
+.MemberList{
+    height: 12rem !important;
+}
+.event_date{
+    float: right;
+}
+Button.add_item_btn{
+    background: transparent !important;
+    border: none;
+    padding-top: 1px;
+}
+.event_label{
+    padding-top: 2px;
+}
+#create_event_btn{
+    float: right;
+    margin-right:3rem;
+}
+
+.add_member{
+    margin-left: 0.8rem;
+    padding-right: 0.9rem;
+}
+Button.nomore, Button.nomore:hover{
+    color: rgb(182, 182, 182) !important;
+    border-color: rgb(182, 182, 182) !important;
+    background:  transparent !important;
+    cursor: not-allowed !important;
+}
+
+//Landing Page
+
+.UrlLink{
+    color: white !important;
+    font-size: 1.2em
+}
+
+.landing-app-body{
+    background-image: url('./img/bg.png');
+    background-size: cover;
+}
+
+.caption{
+    position: absolute;
+    top:38%;
+    left:15%;
+    z-index:1;
+    color:white;
+  }
+    
+.caption h1{
+    font-size: 3.8rem;
+    font-weight: 700;
+    letter-spacing: .3rem;
+    text-shadow: .1rem .1rem .8rem black;
+    padding-bottom: 2rem;
+    text-transform: uppercase;
+}
+.caption h3{
+    text-shadow: .1rem .1rem .8rem black;
+    letter-spacing: .12rem;
+}
+
+.Landingf{
+    border:none;
+    background-color: transparent;
+}
+
+.footertext{
+    color: white !important;
+}
+
+.footertext2{
+    color: white !important;
+    text-shadow: .1rem .1rem .8rem black;
+}
+
+.start-btn{
+    border-color: white;
+    border-width: 0.15rem;
+    color: white;
+}
+
+Button#reg_btn{
+    margin-top: 3px;
+    padding-top: 3px;
+    border:none;
+}
+
+Button#reg_btn:hover{
+    color:rgba(47, 53, 58,0.9);
+}
+
+//Login page
+
+.register-frame{
+    background-image: url('./img/bg.png');
+    background-size: cover;
+}
+
+.nuslogin{
+    float: right;
+}
+// ie fixes
+@import "ie-fix";

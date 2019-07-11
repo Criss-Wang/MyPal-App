@@ -1,0 +1,6 @@
+{
+    "name": "Analysis",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./Analysis.js"
+  }
