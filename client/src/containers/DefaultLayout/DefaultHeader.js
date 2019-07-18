@@ -36,7 +36,7 @@ class DefaultHeader extends Component {
     const token = localStorage.usertoken
     const decoded = jwt_decode(token)
     const infoId = localStorage.selfInfoId
-    axios.get(`http://localhost:5000/personals/getPersonal/${infoId}`)
+    axios.get(`personals/getPersonal/${infoId}`)
           .then(res => {
               const Name = `${res.data.firstName} ${res.data.lastName}`
               this.setState({
@@ -53,7 +53,7 @@ class DefaultHeader extends Component {
     const decoded = jwt_decode(token)
     const infoId = localStorage.selfInfoId
     if(this.state.selfUpdated !== this.props.selfUpdated){
-      axios.get(`http://localhost:5000/personals/getPersonal/${infoId}`)
+      axios.get(`personals/getPersonal/${infoId}`)
           .then(res => {
               const Name = `${res.data.firstName} ${res.data.lastName}`
               this.setState({

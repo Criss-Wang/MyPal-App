@@ -136,7 +136,7 @@ export class InfoSheet extends Component {
       note:this.state.note,
       SocialAccount:sociallist,
     }
-    axios.put(`http://localhost:5000/contacts/updatecontact/${this.state.id}`, info)
+    axios.put(`contacts/updatecontact/${this.state.id}`, info)
     .then(res => {
       this.props.updateInfo(true); //update the contact table upon addition
     })

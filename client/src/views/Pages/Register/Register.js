@@ -62,7 +62,7 @@ onSubmit (e) {
       return false;
     } else {
       this.setState({username: '', email: '', password: '', password2: '',errors: [],});
-      axios.post('http://localhost:5000/users/register', user)
+      axios.post('users/register', user)
         .then(res => {
           const data = res.data;
           if (!data.error){

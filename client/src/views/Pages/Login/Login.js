@@ -38,7 +38,7 @@ onSubmit (e) {
         password: this.state.password
     }
 
-    axios.post('http://localhost:5000/users/login', user)
+    axios.post('users/login', user)
         .then(res => {
           const data = res.data;
           if (!data.error){

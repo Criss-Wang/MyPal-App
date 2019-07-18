@@ -57,7 +57,7 @@ class Contact extends Component {
   }
   // Initialize data
   componentDidMount(){
-    axios.get('http://localhost:5000/contacts/getcontact')
+    axios.get('contacts/getcontact')
     .then(res => {
         this.setState({
           infos: res.data,
@@ -70,7 +70,7 @@ class Contact extends Component {
   // Info Addition updated
   componentDidUpdate(){
     if(this.state.contactUpdated !== this.props.contactUpdated){
-      axios.get('http://localhost:5000/contacts/getcontact')
+      axios.get('contacts/getcontact')
           .then(res => {
               this.setState({
                 infos: res.data,
@@ -85,7 +85,7 @@ class Contact extends Component {
   //Handle the delete Button for child component delete.js
   handleDelete(_State){
       if(_State.delete === true){
-          axios.delete(`http://localhost:5000/contacts/deletecontact/${_State.id}`)
+          axios.delete(`contacts/deletecontact/${_State.id}`)
             .then(response => {
               console.log(response)
                 this.setState({

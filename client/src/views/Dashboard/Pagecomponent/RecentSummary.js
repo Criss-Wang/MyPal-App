@@ -22,7 +22,7 @@ export class RecentSummary extends Component {
     let count1 = 0;
     let count2 = 0;
     let month = new Date().getMonth();
-    await axios.get('http://localhost:5000/contacts/getcontact')
+    await axios.get('contacts/getcontact')
           .then(res => {
                 let data = res.data
                 data.forEach(contact => {
@@ -38,7 +38,7 @@ export class RecentSummary extends Component {
           .catch(function(error){
                 console.log(error);
             });
-    await axios.get('http://localhost:5000/groups/getgroup')
+    await axios.get('groups/getgroup')
             .then(res => {
               let newdata  = res.data;
               newdata.forEach(group => {

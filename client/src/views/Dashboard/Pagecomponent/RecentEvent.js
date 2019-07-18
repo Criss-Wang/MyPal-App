@@ -102,7 +102,7 @@ export class RecentEvent extends Component {
   async contact(){ 
     var data = [];
     var tempdata = [];
-    await axios.get('http://localhost:5000/contacts/getcontact')
+    await axios.get('contacts/getcontact')
           .then(res => {
                 let sortdata = res.data
                 sortdata.forEach(contact => {
@@ -123,7 +123,7 @@ export class RecentEvent extends Component {
   async group(){
     var data = [];
     var tempdata = [];
-    await axios.get('http://localhost:5000/groups/getgroup')
+    await axios.get('groups/getgroup')
         .then(res => {
           let newdata  = res.data;
           newdata.forEach(group => {
@@ -221,7 +221,7 @@ export class RecentEvent extends Component {
                   </Link>
                   </div>
                 </CardHeader>
-                <CardBody className='pl-0 pt-0 ml-0 mt-0 mr-0 pr-0 mb-0 pb-0'>
+                <CardBody className='pl-0 pt-0 ml-0 mt-0 mr-0 pr-0 mb-0 pb-3'>
                   <div>
                     <ListGroup className="list-group-accent" tag={'div'}>
                     <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Individuals</ListGroupItem>

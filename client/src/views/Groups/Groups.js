@@ -28,7 +28,7 @@ class Groups extends Component {
     };
   }
   componentDidMount(){
-    axios.get('http://localhost:5000/groups/getgroup')
+    axios.get('groups/getgroup')
          .then(response => {
              this.setState({
               GroupInfo: response.data,
@@ -39,7 +39,7 @@ class Groups extends Component {
   };
   //Create New Group
   getGroupInfo(_info){
-    axios.post('http://localhost:5000/groups/new', _info)
+    axios.post('groups/new', _info)
         .then(res => {
           this.setState({
             GroupInfo: res.data,
@@ -51,7 +51,7 @@ class Groups extends Component {
   
   //updata Info
   updateGroupInfo(_info, id){
-    axios.put(`http://localhost:5000/groups/updategroup/${id}`, _info)
+    axios.put(`groups/updategroup/${id}`, _info)
         .then(response => {
           this.setState({
             GroupInfo: response.data,
@@ -62,7 +62,7 @@ class Groups extends Component {
   }
 
   deleteGroupInfo(id){
-    axios.delete(`http://localhost:5000/groups/deletegroup/${id}`)
+    axios.delete(`groups/deletegroup/${id}`)
         .then(response => {
         this.setState({
           GroupInfo: response.data,

@@ -31,7 +31,7 @@ export class InfoSheet extends Component {
   }
 
   contactSync(id, name){
-    axios.put(`http://localhost:5000/contacts/synccontact/${id}`, {gn:name})
+    axios.put(`contacts/synccontact/${id}`, {gn:name})
         .then(res => {
           console.log('done')
         })
@@ -41,7 +41,7 @@ export class InfoSheet extends Component {
     let avail_friends = [];
     let img = [];
     let id = []
-    await axios.get('http://localhost:5000/contacts/getcontact')
+    await axios.get('contacts/getcontact')
     .then(res => {
           let data = res.data
           data.forEach(contact => {

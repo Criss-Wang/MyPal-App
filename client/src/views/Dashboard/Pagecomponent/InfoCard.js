@@ -48,7 +48,7 @@ export class InfoCard extends Component {
             this.setState({
               selfInfoId: decoded.infoId
             })
-            axios.get(`http://localhost:5000/personals/getPersonal/${decoded.infoId}`)
+            axios.get(`personals/getPersonal/${decoded.infoId}`)
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
@@ -58,14 +58,14 @@ export class InfoCard extends Component {
         else 
         { 
           if (infoId !== ''){
-            axios.get(`http://localhost:5000/personals/getPersonal/${infoId}`)
+            axios.get(`personals/getPersonal/${infoId}`)
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
                 })
               })
           } else {
-            axios.post(`http://localhost:5000/personals/new`, newInfo)
+            axios.post(`personals/new`, newInfo)
             .then(res => {
               const newInfoId = {infoId:res.data._id};
               console.log(res.data)
@@ -74,7 +74,7 @@ export class InfoCard extends Component {
                 selfInfoId:res.data._id,
                 selfInfo:res.data
               });
-              axios.put(`http://localhost:5000/users/update/${decoded._id}`,newInfoId)
+              axios.put(`users/update/${decoded._id}`,newInfoId)
                 .then(console.log("new personal info created"))
             })
         }}
@@ -84,7 +84,7 @@ export class InfoCard extends Component {
     componentDidUpdate(){
         const infoId = localStorage.selfInfoId
         if(this.state.contactUpdated !== this.props.contactUpdated){
-            axios.get(`http://localhost:5000/personals/getPersonal/${infoId}`)
+            axios.get(`personals/getPersonal/${infoId}`)
                 .then(res => {
                     this.setState({
                         selfInfo:res.data
