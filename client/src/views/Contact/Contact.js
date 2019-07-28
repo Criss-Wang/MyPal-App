@@ -10,6 +10,8 @@ import Fill2 from './Pagecomponent/social';
 import Fill3 from './Pagecomponent/Delete';
 import axios from 'axios';
 import { CSVLink } from "react-csv";
+import { Link } from 'react-router-dom';
+
 
 const exportlist = [
   { label: "first name", key: "firstName" },
@@ -256,6 +258,9 @@ class Contact extends Component {
                 <Button color="primary"  className="mr-3 " size='sm' onClick={this.toggleExport}>
                   <CSVLink className='export' data={this.state.infos} headers={this.state.headers} filename={"Contact_Book.csv"}><i className="fa fa-cloud-download"></i>&nbsp; Export </CSVLink>
                 </Button>
+                
+                <Link to="/visual"><Button color="primary"  className="mr-3 " size='sm'><i className='fa fa-eye mr-1'></i> Go Visual</Button></Link>
+                
 
                 </div>
               </CardHeader>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-import {Row, Col, Card, CardBody, CardFooter } from 'reactstrap';
+import {Row, Col, Card, CardBody } from 'reactstrap';
 
 import classNames from 'classnames';
 
@@ -78,7 +78,8 @@ class Widget extends Component {
     };
 
     const change = function (value) {
-        return ((parseInt(value) >= 0)?
+        if (parseInt(value) === 0) { return <div> </div>}
+        return ((parseInt(value) > 0 )?
         <div className='text-right' style={{ color: 'grey' }}><i className="fa fa-long-arrow-up" ></i> {value} <div className='this-month'>this month</div></div>:
         <div className='text-right' style={{ color: 'grey' }}><i className="fa fa-long-arrow-down" ></i> {Math.abs(parseInt(value))} <div className='this-month'>this month</div></div>);
       };
