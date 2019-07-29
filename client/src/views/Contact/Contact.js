@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Badge,Button,ButtonDropdown, Card,CardBody,
-  CardHeader, Col, DropdownItem, DropdownMenu,
-  DropdownToggle, Row,Table, Fade,
+  Badge,Button, Card,CardBody,CardHeader, Col, Spinner, Row,Table, Fade,ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import Pagecomponent from './Pagecomponent/Paginate';
 import Fill from './Pagecomponent/InfoSheet1';
@@ -11,7 +9,22 @@ import Fill3 from './Pagecomponent/Delete';
 import axios from 'axios';
 import { CSVLink } from "react-csv";
 import { Link } from 'react-router-dom';
+import PubSub from 'pubsub-js';
 
+function compare(property){
+  return function(a,b){
+      var sortby = property
+      var value1 = a[property];
+      var value2 = b[property];
+      if(sortby === 'firstName'|| sortby === 'Department'|| sortby ==='Major' ){
+        return value1.localeCompare(value2)
+      } else if (sortby === 'firstName back' || sortby === 'Event_Date'){
+        return value2.localeCompare(value1)
+      } else {
+        return  value1 - value2;
+      }
+  }
+}
 
 const exportlist = [
   { label: "first name", key: "firstName" },
@@ -43,10 +56,12 @@ class Contact extends Component {
     this.renderTags = this.renderTags.bind(this);
     this.renderGroups = this.renderGroups.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.renderSearchData = this.renderSearchData.bind(this);
+    this.dropclick = this.dropclick.bind(this);
     this.paginate= this.paginate.bind(this);
 
     this.state = {
-      dropdownOpen: new Array(2).fill(false),
+      dropdownOpen: false,
       contactUpdated: false,
       export: false,
       infos: [],
@@ -55,6 +70,9 @@ class Contact extends Component {
       itemsPerpage: 10,
       totalPage: 1,
       totalItem: 0,
+      searchlist:[],
+      searched:false,
+      flag: false,
     };
   }
   // Initialize data
@@ -65,8 +83,15 @@ class Contact extends Component {
           infos: res.data,
           totalPage: Math.ceil(res.data.length / 10),
           totalItem: res.data.length,
+          flag:true
         })
     });
+
+    this.pubsub_token = PubSub.subscribe('search',function(topic,contactlist){
+      this.setState({
+        searched: true,
+        searchlist: contactlist,
+      })}.bind(this));
   }
 
   // Info Addition updated
@@ -78,6 +103,7 @@ class Contact extends Component {
                 infos: res.data,
                 totalPage: Math.ceil(res.data.length / 10),
                 totalItem: res.data.length,
+                flag:true
               })
           });
       this.props.updateInfo(false);
@@ -138,13 +164,25 @@ class Contact extends Component {
   }
 
   //for the sort dropdown
-  toggledrop(i) {
-    const newArray = this.state.dropdownOpen.map((element, index) => { return (index === i ? !element : false); });
+  toggledrop() {
     this.setState({
-      dropdownOpen: newArray,
+      dropdownOpen: !this.state.dropdownOpen,
     });
   }
+  dropclick(e){
+    var sortby = '';
+    if (e.target.value === 'Name front'){sortby='firstName'}
+    else if (e.target.value === 'Name back'){sortby='firstName back'}
+    else if (e.target.value === 'Major'){sortby='Major'}
+    else if (e.target.value === 'Departments'){sortby='Department'}
+    else if (e.target.value === 'Events'){sortby='Event_Date'}
 
+    if (sortby !== ''){
+      this.setState({
+        infos:this.state.infos.sort((compare(sortby))),
+      })
+    }
+  }
   // Enable Export modal (not used yet)
   toggleExport() {
     this.setState({
@@ -227,10 +265,79 @@ class Contact extends Component {
        )
     })}
  }
+ renderSearchData(){
+  let infoDisplay = this.state.searchlist 
+  console.log(this.state.searchlist)
+  return infoDisplay.map((info, index) => {
+      const { id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
+      Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note} = info //destructuring
+      return (
+          <tr key={index}>
+              <td className="text-center">
+              <div className="avatar">
+                <img src={(img!== '')?img:'../../assets/img/defaultUser.png'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              </div>
+              </td>
+              <td>
+                <div>{(nickname === '')?`${firstName} ${lastName}`:`${firstName} ${lastName}, ${nickname}`}</div>
+                <div className="small text-muted">
+                  <span>{Major}</span> 
+                </div>
+              </td>
+              <td className="text-center">
+                <span className='text-muted'>{(Group.length === 0 ) ? 'None': Group}</span>
+              </td>
+              <td>
+                <div className="text-center">
+                {(Tags.length === 0 ) ? 'None': this.renderTags(Tags)}
+                </div>
+              </td>
+              <td>
+                <div className='text-center'>
+                <div className="small text-muted">{(Event_Date.length === 0 ) ? ' ': Event_Date}</div>
+                <strong> {(Recent_Event.length === 0 ) ? 'No Event': Recent_Event}</strong>
+                </div>
+              </td>
+              <td className='mr-0 pr-0'>
+                <div className="small text-muted"><i className="fa fa-phone mr-1"></i> {(Phone.length === 0 ) ? 'No Record': Phone}</div>
+                <div className="small text-muted"><i className="fa fa-envelope mr-1"></i> {(Email.length === 0 ) ? 'No Record': Email}</div>
+              </td>
+              <td className='pl-0 ml-0 mr-0 pr-0 text-center'>
+                <div className='mr-0'>
+                <Fill firstName={firstName}
+                      lastName={lastName}
+                      nickName={nickname}
+                      sex={sex}
+                      birthday={birthday}
+                      Department={Department}
+                      Major={Major}
+                      YOS={YOS}
+                      Tags={Tags}
+                      Phone={Phone}
+                      Email={Email}
+                      Residence={Residence}
+                      Social_Contact_type= {"Facebook"}
+                      Social_Contact_account={"221122"}
+                      BM_date={Event_Date}
+                      BM_name={Recent_Event}
+                      note={note}
+                      img={img}
+                      getContactInfo = {this.getContactInfo}
+                      />
+                <Fill2 facebook={SocialAccount.Facebook} twitter={SocialAccount.Twitter}/>
+                <Fill3 handleDelete={this.handleDelete} id={id}/>
+              </div>  
+              </td>
+            </tr>
+  )
+})
+}
 
   render() {
     const indexOfLastItem = (this.state.currentPage!==this.state.totalPage)?(this.state.currentPage * this.state.itemsPerpage):this.state.totalItem;
+    const indexOfLastItem2 = (this.state.currentPage!== Math.ceil(this.state.searchlist.length / 10))?(this.state.currentPage * this.state.itemsPerpage):this.state.searchlist.length;
     const indexOfFirstItem = (this.state.currentPage!==this.state.totalPage)?(indexOfLastItem -this.state.itemsPerpage):(this.state.itemsPerpage * (this.state.currentPage-1));
+    const indexOfFirstItem2 = (this.state.currentPage!== Math.ceil(this.state.searchlist.length / 10))?(indexOfLastItem2 -this.state.itemsPerpage):(this.state.itemsPerpage * (this.state.currentPage-1));
     return (
       <div className="animated fadeIn">
         <Row>
@@ -240,19 +347,18 @@ class Contact extends Component {
             <Card className="card-accent-info shadow-sm">
               <CardHeader>
                 <i className="fa fa-align-justify"></i> Contact Book
-                <Badge className="mr-1 ml-3" color="primary">Anime</Badge>
                 <div className="card-header-actions">
-                <ButtonDropdown className="mr-3 " isOpen={this.state.dropdownOpen[0]} toggle={() => { this.toggledrop(0); }}>
+                <ButtonDropdown className="mr-3 " isOpen={this.state.dropdownOpen} toggle={() => { this.toggledrop(); }}>
                   <DropdownToggle caret color="primary" className='float-right' size ='sm'>
                     Sort By 
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem header>Types</DropdownItem>
-                    <DropdownItem disabled>Name (A-Z)</DropdownItem>
-                    <DropdownItem>Name (Z-A)</DropdownItem>
-                    <DropdownItem>Tags</DropdownItem>
-                    <DropdownItem>Groups</DropdownItem>
-                    <DropdownItem>Most Recent Event</DropdownItem>
+                    <DropdownItem value ='Name front' onClick={this.dropclick}>Name (A-Z)</DropdownItem>
+                    <DropdownItem value ='Name back' onClick={this.dropclick}>Name (Z-A)</DropdownItem>
+                    <DropdownItem value ='Major' onClick={this.dropclick}>Major</DropdownItem>
+                    <DropdownItem value ='Departments' onClick={this.dropclick}>Departments</DropdownItem>
+                    <DropdownItem value ='Events' onClick={this.dropclick}>Most Recent Event</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
                 <Button color="primary"  className="mr-3 " size='sm' onClick={this.toggleExport}>
@@ -266,36 +372,54 @@ class Contact extends Component {
               </CardHeader>
              <CardBody className=' pb-2 mb-0'>
                {/* Main Table for display */}
-             <Fade timeout={200} in={true}>
-             <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
-                  <thead className="thead-light">
-                  <tr>
-                    <th className="text-center"><i className="icon-people"></i></th>
-                    <th>Name</th>
-                    <th className="text-center">Group</th>
-                    <th className="text-center">Tags</th>
-                    <th className="text-center mr-2">Recent events</th>
-                    <th>Contacts</th>
-                    <th> </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    {this.renderTableData()}
-                  </tbody>
-              </Table>
-              </Fade>
-              <Row className='mt-3'>
-                <Col md='3' className='pagi-header pl-5'>
-                  <strong>{`${indexOfFirstItem +1}- ${indexOfLastItem} of ${this.state.totalItem} Contacts`}</strong>
-                </Col>
-                <Col md='9'>
-                <Pagecomponent totalItem ={this.state.totalItem}
-                              currentPage={this.state.currentPage}
-                              itemsPerpage={this.state.itemsPerpage}
-                              totalPage={this.state.totalPage}
-                              paginate={this.paginate}/>
-                </Col>
-              </Row>                
+               {(this.state.flag)?
+                <div>
+                <Fade timeout={200} in={true}>
+                  <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
+                      <thead className="thead-light">
+                      <tr>
+                        <th className="text-center"><i className="icon-people"></i></th>
+                        <th>Name</th>
+                        <th className="text-center">Group</th>
+                        <th className="text-center">Tags</th>
+                        <th className="text-center mr-2">Recent events</th>
+                        <th>Contacts</th>
+                        <th> </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        {(this.state.searched)?this.renderSearchData():this.renderTableData()}
+                      </tbody>
+                  </Table>
+                </Fade>
+                <Row className='mt-3'>
+                  <Col md='3' className='pagi-header pl-5'>
+                    {(this.state.searched)?
+                    <strong>{`${indexOfFirstItem2 +1}- ${indexOfLastItem2} of ${this.state.searchlist.length} Contacts`}</strong>
+                    :
+                    <strong>{`${indexOfFirstItem +1}- ${indexOfLastItem} of ${this.state.totalItem} Contacts`}</strong>}
+                  </Col>
+                  <Col md='9'>
+                  {(this.state.searched)?
+                  <Pagecomponent totalItem ={this.state.searchlist.length}
+                                  currentPage={this.state.currentPage}
+                                  itemsPerpage={this.state.itemsPerpage}
+                                  totalPage={Math.ceil(this.state.searchlist.length / 10)}
+                                  paginate={this.paginate}/>
+                  :
+                  <Pagecomponent totalItem ={this.state.totalItem}
+                                currentPage={this.state.currentPage}
+                                itemsPerpage={this.state.itemsPerpage}
+                                totalPage={this.state.totalPage}
+                                paginate={this.paginate}/>}
+                  
+                  </Col>
+                </Row>
+                </div>
+                :
+                <div className='text-center mt-1'>
+                  <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>
+                </div>}                
               </CardBody>
             </Card>
             </Fade>

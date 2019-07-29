@@ -3,6 +3,11 @@ import { Badge, Button, Input, Modal, ModalBody,
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
 import axios from "axios";
 
+var majors = ['Applied Mathematics', 'Computer Science', 'Computer Engineering']
+var Depts = ["Faculty of Art & Social Science", "School of Computing", 'Business School',
+             'Faculty of Science', 'Faculty of Dentistry', 'Faculty of Law', 'Faculty of Engineering',
+             'School of Medicine', 'Yong  Siew Toh Conservatory of Music', 'School of Design and Environment'
+] 
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -16,6 +21,8 @@ export class InfoSheet extends Component {
     this.mountTaglist = this.mountTaglist.bind(this);
     this.handleAddTag = this.handleAddTag.bind(this);
     this.TagDisplay = this.TagDisplay.bind(this);
+    this.renderMajor = this.renderMajor.bind(this);
+    this.renderDept = this.renderDept.bind(this);
 
     this.state = {
       modal: false,
@@ -43,9 +50,22 @@ export class InfoSheet extends Component {
       newTags: ['',]
     };
   }
+  renderMajor(){
+    return [...majors].map((major, index) => {
+      return (
+        <option key={index} value={major}>{major}</option>
+      )
+    })
+  }
+  renderDept(){
+    return [...Depts].map((dept, index) => {
+      return (
+        <option key={index} value={dept}>{dept}</option>
+      )
+    })
+  }
   // Sync the parent's states
   componentWillMount(){
-    console.log(this.props.firstName, 'trial')
     this.setState({
       id:this.props.id,
       firstName: this.props.firstName,
@@ -69,7 +89,7 @@ export class InfoSheet extends Component {
     })
   }
   componentDidUpdate(){
-    if(this.state.firstName !== this.props.firstName){
+    if(this.state.id !== this.props.id){
       this.setState({
         id:this.props.id,
         firstName: this.props.firstName,
@@ -164,7 +184,6 @@ export class InfoSheet extends Component {
       note:this.state.note,
       SocialAccount:sociallist,
     }
-    console.log(info, this.state.id)
     axios.put(`personals/updatePersonal/${this.state.id}`, info)
     .then(res => {
       this.props.updateInfo(true);
@@ -307,20 +326,20 @@ export class InfoSheet extends Component {
                     <Form method="post" encType="multipart/form-data" className="form-horizontal">
                         <FormGroup row>
                         <Col md="5" className="mt-1 ">
-                          <Label htmlFor="Firstname"><i className="fa fa-id-card-o"></i> First Name</Label>
+                          <Label htmlFor="firstName"><i className="fa fa-id-card-o"></i> First Name</Label>
                         </Col>
                         <Col xs="12" md="7" className=" ml-0 pl-0">
-                          <Input type="text" id="Firstname" name="firstName" placeholder="Required*" value={this.state.firstName}
-                              onChange={this.onChange} required/>
+                          <Input type="text" id="firstName" name="firstName" placeholder="Required*" value={this.state.firstName}
+                                  onChange={this.onChange} />
                         </Col>
                         </FormGroup>
                         <FormGroup row>
                         <Col md="5" className=" mr-0 mt-1">
-                          <Label htmlFor='Lastname'><i className="fa fa-id-card-o"></i> Last Name</Label>
+                          <Label htmlFor='lastName'><i className="fa fa-id-card-o"></i> Last Name</Label>
                         </Col>
                         <Col xs="12" md="7" className=" ml-0 pl-0">
-                          <Input type="text" id="Lastname" name="lastName" placeholder="Required*" value={this.state.lastName}
-                                  onChange={this.onChange} required/>
+                          <Input type="text" id="lastName" name="lastName" placeholder="Required*" value={this.state.lastName}
+                                  onChange={this.onChange} />
                         </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -377,9 +396,7 @@ export class InfoSheet extends Component {
                         <Col xs="12" md="8" className=" ml-0 pl-0">
                           <Input type="select" name="Department" id="select" value={this.state.Department} onChange={this.onChange}>
                             <option value="">Please select</option>
-                            <option value="School of Computing">School of Computing</option>
-                            <option value="Math Department">Math Department</option>
-                            <option value="School of Art and Social Science">School of Art and Social Science</option>
+                            {this.renderDept()}
                           </Input>
                         </Col>
                       </FormGroup>
@@ -390,9 +407,7 @@ export class InfoSheet extends Component {
                         <Col xs="12" md="8" className=" ml-0 pl-0">
                           <Input type="select" name="Major" id="select" value={this.state.Major} onChange={this.onChange}>
                             <option value="">Please select</option>
-                            <option value="Applied Mathematics">Applied Mathematics</option>
-                            <option value="Computer Science">Computer Science</option>
-                            <option value="Computer Engineering">Computer Engineering</option>
+                            {this.renderMajor()}
                           </Input>
                         </Col>
                       </FormGroup>

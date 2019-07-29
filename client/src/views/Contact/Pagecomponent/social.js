@@ -13,8 +13,8 @@ export class InfoSheet extends Component {
     };
   }
 
-  componentDidMount(){
-    if(this.props.SocialAccount !== []){
+/*   componentDidMount(){
+    if(this.props.SocialAccount[0].Channel !== ''){
       this.props.SocialAccount.forEach((media) =>{
         if (media.Channel === 'Facebook') {this.setState({
           facebook:media.Account
@@ -23,8 +23,9 @@ export class InfoSheet extends Component {
           twitter:media.Account
         })}
       }) 
-    } 
+    }
   }
+
   componentDidUpdate(){
     if(this.props.SocialAccount !== this.state.SocialAccount){
       this.setState({
@@ -39,7 +40,7 @@ export class InfoSheet extends Component {
         })}
       }) 
     }
-  }
+  } */ 
   
   // toggle social contact
   toggleSocial() {

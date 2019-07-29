@@ -352,7 +352,6 @@ export class InfoSheet extends Component {
         this.props.info.Events.forEach((Event, index) =>{
           curr_events.push({value: Event.EventName, label: Event.EventName})
         })
-        console.log(this.state.options)
         return (
           <div className='mr-1'>
             <Button onClick={this.delGroup} outline className='card-header-action' id='modalbtn'><i className="fa fa-trash"></i></Button>

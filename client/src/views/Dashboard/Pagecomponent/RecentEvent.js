@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    Button,Card,CardBody, CardHeader, ListGroupItem, ListGroup,
+    Button,Card,CardBody, CardHeader, ListGroupItem, ListGroup, Spinner
   } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -96,7 +96,8 @@ export class RecentEvent extends Component {
       contactData:[],
       groupData:[],
       img: [],
-      eventUpdated: false
+      eventUpdated: false,
+      flag: false
     }
   }
   async contact(){ 
@@ -139,7 +140,8 @@ export class RecentEvent extends Component {
           console.log(error);
         });
         this.setState({
-          groupData: data
+          groupData: data,
+          flag: true
         })
   }
 
@@ -222,6 +224,7 @@ export class RecentEvent extends Component {
                   </div>
                 </CardHeader>
                 <CardBody className='pl-0 pt-0 ml-0 mt-0 mr-0 pr-0 mb-0 pb-3'>
+                  {(this.state.flag)?
                   <div>
                     <ListGroup className="list-group-accent" tag={'div'}>
                     <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Individuals</ListGroupItem>
@@ -231,6 +234,10 @@ export class RecentEvent extends Component {
                     {this.groups(this.state.groupData)}
                   </ListGroup>
                   </div>
+                  :
+                  <div className='text-center mt-3'>
+                    <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>
+                  </div>}
                 </CardBody>
               </Card>
         )

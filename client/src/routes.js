@@ -7,6 +7,7 @@ const Visual = React.lazy(() => import('./views/Contact/visual'));
 const Groups = React.lazy(() => import('./views/Groups'));
 const Landing = React.lazy(() => import('./views/Pages/Landing'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
+const Filter = React.lazy(() => import('./views/Filter/Filters'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 const Profile = React.lazy(() => import('./views/Profile/Profile'))
@@ -16,6 +17,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/contact', name: 'Contact', component: Contact },
   { path: '/visual', name: 'Visual', component: Visual },
+  { path: '/filter', name: 'Filter', component: Filter },
   { path: '/analysis', name: 'Analysis', component: Analysis },
   { path: '/groups', name: 'Groups', component: Groups },
   { path: '/landing', name: 'Landing', component: Landing },

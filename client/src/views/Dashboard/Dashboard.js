@@ -8,18 +8,13 @@ import RecentSummary from './Pagecomponent/RecentSummary'
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.getContactInfo = this.getContactInfo.bind(this);
+    this.loading = this.loading.bind(this);
     this.state = {
       fadeIn: true,
       timeout: 200,
       selfInfoId:'',
       selfInfo:[],
     };
-  }
-
-  //Contact person's info update
-  getContactInfo(_info){
-    console.log(_info)
   }
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -34,7 +29,8 @@ class Dashboard extends Component {
               {/*Self Info card display */}
               <InfoCard updateInfo = {this.props.updateInfo}
                         contactUpdated = {this.props.contactUpdated}
-                        updateSelfInfo = {this.props.updateSelfInfo}/>
+                        updateSelfInfo = {this.props.updateSelfInfo}
+                        changestate = {this.changestate}/>
             </Fade>
           </Col>
 

@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import {
   Badge,Card,CardBody,
-  CardHeader,Col,Row,Fade, 
+  CardHeader,Col,Row,Fade, Spinner
 } from 'reactstrap';
 import Fill1 from './InfoSheet1';
 import Fill2 from './InfoSheet2';
@@ -25,6 +25,7 @@ class Groups extends Component {
       currentPage: 1,
       itemsPerpage: 8,
       totalItem: 0,
+      flag:false
     };
   }
   componentDidMount(){
@@ -34,6 +35,7 @@ class Groups extends Component {
               GroupInfo: response.data,
               totalPage: Math.ceil(response.data.length / 8),
               totalItem: response.data.length,
+              flag:true
             })
          });
   };
@@ -216,12 +218,19 @@ class Groups extends Component {
                 <Fill1 getGroupInfo={this.getGroupInfo} />
               </CardHeader>
               <CardBody className='mb-2 pb-0'>
+              {(this.state.flag)?
+                <div>
                 <Row>
                   {this.renderTableData1()}
                 </Row>
                 <Row>
                   {this.renderTableData2()}
                 </Row>
+                </div>
+                :
+                <div className='text-center mt-1'>
+                  <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>
+                </div>} 
               </CardBody>
             </Card>
           </Col>

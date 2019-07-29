@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Badge,Card,CardBody, CardHeader, } from 'reactstrap';
+    Badge,Card,CardBody, CardHeader, Spinner} from 'reactstrap';
 import Fill from './InfoSheet2';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -28,15 +28,14 @@ const newInfo = {
 export class InfoCard extends Component {
     constructor(props) {
         super(props);
-        this.getSelfInfo = this.getSelfInfo.bind(this);
         this.showTags = this.showTags.bind(this);
-        this.getContactInfo = this.getContactInfo.bind(this);
         this.state = {
           fadeIn: true,
           contactUpdated: false,
           timeout: 200,
           selfInfo:newInfo,
           selfInfoId:'',
+          flag: false,
         };
       }
     // Initialize data
@@ -52,6 +51,7 @@ export class InfoCard extends Component {
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
+                    flag: true
                 })
             })
           }
@@ -62,17 +62,18 @@ export class InfoCard extends Component {
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
+                    flag: true
                 })
               })
           } else {
             axios.post(`personals/new`, newInfo)
             .then(res => {
               const newInfoId = {infoId:res.data._id};
-              console.log(res.data)
               localStorage.setItem('selfInfoId', res.data._id)
               this.setState({
                 selfInfoId:res.data._id,
-                selfInfo:res.data
+                selfInfo:res.data,
+                flag: true
               });
               axios.put(`users/update/${decoded._id}`,newInfoId)
                 .then(console.log("new personal info created"))
@@ -93,15 +94,7 @@ export class InfoCard extends Component {
             this.props.updateInfo(false);
         }
     }
-      //Contact person's info update
-    getContactInfo(_info){
-        console.log(_info)
-    }
-       
-    // Receive info filled from infosheet
-    getSelfInfo(_info){
-        console.log(_info)
-    }
+
     //Display tags on info card
     showTags(){
         let {Tags} = this.state.selfInfo;
@@ -119,7 +112,7 @@ export class InfoCard extends Component {
         const infoId = localStorage.selfInfoId
         let { firstName, lastName, nickname, Department, YOS, Major, Tags, sex,
             Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note}  = this.state.selfInfo;
-        return (
+          return (
                   <Card className='dash-card card-accent-info shadow-sm'>
                     <CardHeader>
                       <span>Your Info Card</span>
@@ -149,22 +142,28 @@ export class InfoCard extends Component {
                       </div>
                     </CardHeader> 
                     <CardBody className='text-center'>
-                      <img src={(img!== '')?img:'../../assets/img/defaultUser.png'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
-                      <h4 className='pb-0 mb-0'>
-                          <strong className='Username'>{(nickname === '')?`${firstName} ${lastName}`:`${firstName} ${lastName}, ${nickname}`} </strong>
-                          {(sex === "Male")?<i className='fa fa-mars male'></i>:<i className='fa fa-venus female'></i>}
-                      </h4>
-                      <p className='pt-0 mt-0 pb-0 mb-0'>{Major}</p>
-                      <p className='pt-0 mt-0 pb-0 mb-0'>{YOS} </p>
-                      <hr/>
-                      <div className="text-center">
-                        {this.showTags()}
+                    {(this.state.flag)?
+                      <div>
+                        <img src={(img!== '')?img:'../../assets/img/defaultUser.png'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
+                        <h4 className='pb-0 mb-0'>
+                            <strong className='Username'>{(nickname === '')?`${firstName} ${lastName}`:`${firstName} ${lastName}, ${nickname}`} </strong>
+                            {(sex === "Male")?<i className='fa fa-mars male'></i>:<i className='fa fa-venus female'></i>}
+                        </h4>
+                        <p className='pt-0 mt-0 pb-0 mb-0'>{Major}</p>
+                        <p className='pt-0 mt-0 pb-0 mb-0'>{YOS} </p>
+                        <hr/>
+                        <div className="text-center">
+                          {this.showTags()}
+                        </div>
                       </div>
+                      :
+                      <div className='text-center'>
+                        <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>
+                      </div>}
                     </CardBody>
                   </Card>
-        )}
-
-
+        )
+      }
 }    
 
 export default InfoCard

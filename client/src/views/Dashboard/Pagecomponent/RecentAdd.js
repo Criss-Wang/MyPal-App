@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Badge, Card, CardBody, CardHeader, Table, Fade,} from 'reactstrap';
+import {Badge, Card, CardBody, CardHeader, Table, Fade, Spinner} from 'reactstrap';
 import Fill from './InfoSheet1';
 import Fill2 from './social';
 import Fill3 from './Delete';
@@ -18,6 +18,7 @@ class RecentAdd extends Component {
       dropdownOpen: new Array(2).fill(false),
       contactUpdated: false,
       infos: [],
+      flag: false
     };
   }
   // Initialize data
@@ -26,6 +27,7 @@ class RecentAdd extends Component {
     .then(res => {
         this.setState({
           infos: res.data,
+          flag: true
         })
     });
   }
@@ -37,6 +39,7 @@ class RecentAdd extends Component {
           .then(res => {
               this.setState({
                 infos: res.data,
+                flag: true
               })
           });
       this.props.updateInfo(false);
@@ -181,8 +184,9 @@ class RecentAdd extends Component {
         <CardHeader>
           Recently Added
         </CardHeader>
-        <CardBody className=' pb-2 mb-4'>
+        <CardBody className=' pb-2 mb-4 text-center'>
           {/* Main Table for display */}
+          {(this.state.flag)?
           <Fade timeout={200} in={true}>
             <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
               <thead className="thead-light">
@@ -200,7 +204,9 @@ class RecentAdd extends Component {
                 {this.renderTableData()}
               </tbody>
             </Table>
-          </Fade>             
+          </Fade>
+          :
+          <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>}             
         </CardBody>
       </Card>
   );

@@ -589,7 +589,7 @@ export class Analysis extends Component {
                     <div className="progress-group-header">
                       <i className="icon-globe progress-group-icon"></i>
                       <span className="title">Latest Event: <strong>{this.state.NwEvent[0]}</strong></span>
-                      <span className="ml-auto font-weight-bold">{this.state.NwEvent[2]}
+                      <span className="ml-auto font-weight-bold">{`${this.state.NwEvent[2]} People`}
                         <span className="text-muted small ml-1">
                           {`(${((this.state.ContactAdded!==0)?parseInt(this.state.NwEvent[2]/this.state.ContactAdded * 100):0)}% friends involved)`}
                         </span>

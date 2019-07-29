@@ -3,6 +3,11 @@ import { Badge, Button, Input, Modal, ModalBody,
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
 import axios from "axios";
 
+var majors = ['Applied Mathematics', 'Computer Science', 'Computer Engineering'];
+var Depts = ["Faculty of Art & Social Science", "School of Computing", 'Business School',
+             'Faculty of Science', 'Faculty of Dentistry', 'Faculty of Law', 'Faculty of Engineering',
+             'School of Medicine', 'Yong  Siew Toh Conservatory of Music', 'School of Design and Environment'
+];
 
 export class InfoSheet extends Component {
   constructor(props) {
@@ -16,6 +21,8 @@ export class InfoSheet extends Component {
     this.mountTaglist = this.mountTaglist.bind(this);
     this.handleAddTag = this.handleAddTag.bind(this);
     this.TagDisplay = this.TagDisplay.bind(this);
+    this.renderMajor = this.renderMajor.bind(this);
+    this.renderDept = this.renderDept.bind(this);
 
     this.state = {
       modal: false,
@@ -42,6 +49,20 @@ export class InfoSheet extends Component {
       img: '',
       newTags: ['',]
     };
+  }
+  renderMajor(){
+    return [...majors].map((major, index) => {
+      return (
+        <option key={index} value={major}>{major}</option>
+      )
+    })
+  }
+  renderDept(){
+    return [...Depts].map((dept, index) => {
+      return (
+        <option key={index} value={dept}>{dept}</option>
+      )
+    })
   }
   // Sync the parent's states
   componentDidMount(){
@@ -347,9 +368,7 @@ export class InfoSheet extends Component {
                         <Col xs="12" md="8" className=" ml-0 pl-0">
                           <Input type="select" name="Department" id="select" value={this.state.Department} onChange={this.onChange}>
                             <option value="">Please select</option>
-                            <option value="School of Computing">School of Computing</option>
-                            <option value="Math Department">Math Department</option>
-                            <option value="School of Art and Social Science">School of Art and Social Science</option>
+                            {this.renderDept()}
                           </Input>
                         </Col>
                       </FormGroup>
@@ -360,9 +379,7 @@ export class InfoSheet extends Component {
                         <Col xs="12" md="8" className=" ml-0 pl-0">
                           <Input type="select" name="Major" id="select" value={this.state.Major} onChange={this.onChange}>
                             <option value="">Please select</option>
-                            <option value="Applied Mathematics">Applied Mathematics</option>
-                            <option value="Computer Science">Computer Science</option>
-                            <option value="Computer Engineering">Computer Engineering</option>
+                            {this.renderMajor()}
                           </Input>
                         </Col>
                       </FormGroup>

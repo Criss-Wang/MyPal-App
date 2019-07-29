@@ -22,14 +22,11 @@ export default {
       icon: 'fa fa-bar-chart'
     },
     {
-      title: true,
       name: 'Filter',
-      wrapper: {
-        element: '',
-        attributes: {},
-      },
+      url: '/filter',
+      icon: 'fa fa-bar-chart'
     },
-    {
+    /* {
       name: 'Profile',
       url: '/Profile',
       icon: 'icon-user',
@@ -41,6 +38,6 @@ export default {
       url: 'https://coreui.io/pro/react/',
       icon: 'icon-bulb',
       attributes: { target: '_blank', rel: "noopener" },
-    },
+    }, */
   ],
 };

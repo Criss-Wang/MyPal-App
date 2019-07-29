@@ -10,6 +10,7 @@ import sygnet from '../../assets/img/brand/Brand2.png'
 import Add from './InfoSheet.js'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios';
+import PubSub from 'pubsub-js';
 
 const propTypes = {
   children: PropTypes.node,
@@ -21,6 +22,9 @@ class DefaultHeader extends Component {
   constructor(props) {
     super(props);
     this.togglepopover = this.togglepopover.bind(this);
+    this.renderReminder = this.renderReminder.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onInputClick = this.onInputClick.bind(this);
     this.state = {
       popoverOpen: false,
       selectedFile: null,
@@ -28,6 +32,16 @@ class DefaultHeader extends Component {
       name: '',
       email: '',
       selfUpdated: false,
+      list:[],
+      reminderlist:[{
+        showindex:0,
+        firstName:"",
+        lastName:"",
+        birthday:"",
+        oldindex:0,
+      }],
+      searchlist:[],
+      searchtag:'',
     };
   }
 
@@ -71,14 +85,90 @@ class DefaultHeader extends Component {
 
 //For Reminder Popover
   togglepopover() {
+    axios.get('contacts/getcontact')
+        .then(res=>{
+          this.setState({
+            list:res.data,
+          })
+          var today = new Date();
+          var today_month = today.getMonth();
+          var today_day = today.getDate();
+          res.data.map((item) => {
+            var { firstName, lastName, birthday } = item
+              var birthdaystr  = birthday.split('-');
+              var month1 = parseInt(birthdaystr[1]);
+              var day1 = parseInt(birthdaystr[2]);
+              if(month1 === today_month && day1 === today_day){
+                const showindex = 1,oldindex = 0;
+                this.state.reminderlist.push({
+                  showindex,
+                  firstName,
+                  lastName,
+                  birthday,
+                  oldindex,
+                });
+              }
+          })
+        });
+    
     this.setState({
       popoverOpen: !this.state.popoverOpen,
     });
   }
+  renderReminder(){
+    if (this.state.reminderlist[0].firstName !== ''){
+      var reminders = this.state.reminderlist;
+      this.setState({
+        reminderlist: []
+      })
+      return reminders.map((info, index) => {
+        const {lastName,birthday} = info
+        return (
+                <ListGroupItem key={index} action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
+                  <div className="avatar float-right">
+                    <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
+                  </div>
+                  <div>Birthday for <strong>{lastName}</strong> </div>
+                  <small className="text-muted mr-3">
+                    <i className="icon-calendar"></i>&nbsp; {birthday}
+                  </small>
+                  <small className="text-muted">
+                    <i className="icon-location-pin"></i> Celebrate!
+                  </small>
+                </ListGroupItem>
+          )
+      })
+    } else {
+      return (<div className='text-muted'> No Reminder Today!</div>)
+    }
+  }
+  onInputChange(e){
+    this.setState({ 
+      searchtag: e.target.value 
+     })
+  }
+  onInputClick(){
+    axios.get('contacts/getcontact')
+         .then(res=>{
+           this.setState({
+             list:res.data,
+           })
+           res.data.map((item) => {
+            const { sex, Phone, birthday, firstName, lastName, nickname, Department, YOS, Major, Email, Residence} = item
+            if(firstName === this.state.searchtag || lastName === this.state.searchtag || nickname === this.state.searchtag || Department === this.state.searchtag || YOS === this.state.searchtag ||Major === this.state.searchtag || sex === this.state.searchtag || Phone === this.state.searchtag ||Email === this.state.searchtag ||birthday === this.state.searchtag ||Residence === this.state.searchtag){
+              this.state.searchlist.push(item);
+            }
+         });
+         PubSub.publish('search',this.state.searchlist)
+         this.setState({
+          searchtag:'',
+          searchlist:[],
+         })
+      }) 
+  }
 
   render() {
 
-    // eslint-disable-next-line
     const { children, ...attributes } = this.props;
 
     return (
@@ -98,9 +188,9 @@ class DefaultHeader extends Component {
                   <i className="fa fa-search"></i>
                 </InputGroupText>
               </InputGroupAddon>
-              <Input size="40" type="text" placeholder="What are you looking for?"/>
+              <Input size="40" type="text" placeholder="What are you looking for?" value = {this.state.searchtag} onChange = {this.onInputChange}/>
               <InputGroupAddon addonType="append">
-                <Button color="primary">Search</Button>
+              <Button color="primary" onClick = {this.onInputClick}>Search</Button>
               </InputGroupAddon>
             </InputGroup>
           </NavItem>
@@ -115,37 +205,12 @@ class DefaultHeader extends Component {
           {/* Reminder popover */}
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link mt-1" onClick={this.togglepopover} id="Reminder" >
-              <i className="icon-bell" id='reminder'></i><Badge pill color="danger">2</Badge>
+              <i className="icon-bell" id='reminder'></i>{(this.state.reminderlist[0].firstName !== '')?<Badge pill color="danger">{this.state.reminderlist.length}</Badge>:null}
               <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Reminder" toggle={this.togglepopover}>
                 <PopoverHeader>Reminders</PopoverHeader>
                 <PopoverBody>
                 <ListGroup className="list-group-accent" tag={'div'}>
-                  <ListGroupItem action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
-                    <div className="avatar float-right">
-                      <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
-                    </div>
-                    <div>Birthday for <strong>Lucas</strong> </div>
-                    <small className="text-muted mr-3">
-                      <i className="icon-calendar"></i>&nbsp; June 3rd
-                    </small>
-                    <small className="text-muted">
-                      <i className="icon-location-pin"></i> Celebrate!
-                    </small>
-                  </ListGroupItem>
-                  <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
-                    <div className="avatar float-right">
-                      <img className="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img>
-                    </div>
-                    <div> Remember your friend <strong>Megan</strong>?</div>
-                    <small className="text-muted mr-3">
-                      <i className="icon-calendar"></i>&nbsp; had event 9 months ago
-                    </small>
-                    <div>
-                    <small className="text-muted">
-                      <i className="icon-social-skype"></i> Contact him!
-                    </small>
-                    </div>
-                  </ListGroupItem>
+                  {this.renderReminder()}
                 </ListGroup> 
                 </PopoverBody>
             </Popover>
@@ -160,7 +225,6 @@ class DefaultHeader extends Component {
             <DropdownMenu right style={{ right: 'auto' }} className='mt-2'>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
               <DropdownItem><i className="fa fa-cog"></i> Setting</DropdownItem>
-              <DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
