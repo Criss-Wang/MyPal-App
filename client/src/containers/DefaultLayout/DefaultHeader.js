@@ -107,13 +107,11 @@ class DefaultHeader extends Component {
 
 //For Reminder Popover
   togglepopover() {
-    
     this.setState({
       popoverOpen: !this.state.popoverOpen,
     });
   }
   renderReminder(){
-    console.log(this.state.reminderlist)
     if (this.state.reminderlist.length!==0){
       var reminders = this.state.reminderlist;
       return reminders.map((info, index) => {
