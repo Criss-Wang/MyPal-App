@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, 
          Button, Input, InputGroup, InputGroupAddon, InputGroupText, Popover, 
          PopoverBody, PopoverHeader, ListGroup, ListGroupItem,} from 'reactstrap';
@@ -33,13 +33,7 @@ class DefaultHeader extends Component {
       email: '',
       selfUpdated: false,
       list:[],
-      reminderlist:[{
-        showindex:0,
-        firstName:"",
-        lastName:"",
-        birthday:"",
-        oldindex:0,
-      }],
+      reminderlist:[],
       searchlist:[],
       searchtag:'',
     };
@@ -59,6 +53,34 @@ class DefaultHeader extends Component {
                   username: decoded.username
               })
           });
+    axios.get('contacts/getcontact')
+    .then(res=>{
+      this.setState({
+        list:res.data,
+      })
+      var today = new Date();
+      var today_month = today.getMonth() + 1;
+      var today_day = today.getDate();
+      res.data.map((item) => {
+        if (item.birthday !== ''){
+        var { firstName, lastName, birthday } = item
+          var birthdaystr  = birthday.split('-');
+          var month1 = parseInt(birthdaystr[1]);
+          var day1 = parseInt(birthdaystr[2]);
+          console.log(today_month, today_day, day1, month1 )
+          if(month1 === today_month && day1 === today_day){
+            const showindex = 1,oldindex = 0;
+            this.state.reminderlist.push({
+              showindex,
+              firstName,
+              lastName,
+              birthday,
+              oldindex,
+            });
+        }
+      }
+      })
+    });
   }
 
 // Update content
@@ -85,42 +107,15 @@ class DefaultHeader extends Component {
 
 //For Reminder Popover
   togglepopover() {
-    axios.get('contacts/getcontact')
-        .then(res=>{
-          this.setState({
-            list:res.data,
-          })
-          var today = new Date();
-          var today_month = today.getMonth();
-          var today_day = today.getDate();
-          res.data.map((item) => {
-            var { firstName, lastName, birthday } = item
-              var birthdaystr  = birthday.split('-');
-              var month1 = parseInt(birthdaystr[1]);
-              var day1 = parseInt(birthdaystr[2]);
-              if(month1 === today_month && day1 === today_day){
-                const showindex = 1,oldindex = 0;
-                this.state.reminderlist.push({
-                  showindex,
-                  firstName,
-                  lastName,
-                  birthday,
-                  oldindex,
-                });
-              }
-          })
-        });
     
     this.setState({
       popoverOpen: !this.state.popoverOpen,
     });
   }
   renderReminder(){
-    if (this.state.reminderlist[0].firstName !== ''){
+    console.log(this.state.reminderlist)
+    if (this.state.reminderlist.length!==0){
       var reminders = this.state.reminderlist;
-      this.setState({
-        reminderlist: []
-      })
       return reminders.map((info, index) => {
         const {lastName,birthday} = info
         return (
@@ -190,7 +185,7 @@ class DefaultHeader extends Component {
               </InputGroupAddon>
               <Input size="40" type="text" placeholder="What are you looking for?" value = {this.state.searchtag} onChange = {this.onInputChange}/>
               <InputGroupAddon addonType="append">
-              <Button color="primary" onClick = {this.onInputClick}>Search</Button>
+              <Link to='/contact'><Button color="primary" onClick = {this.onInputClick}>Search</Button></Link>
               </InputGroupAddon>
             </InputGroup>
           </NavItem>
@@ -205,7 +200,7 @@ class DefaultHeader extends Component {
           {/* Reminder popover */}
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link mt-1" onClick={this.togglepopover} id="Reminder" >
-              <i className="icon-bell" id='reminder'></i>{(this.state.reminderlist[0].firstName !== '')?<Badge pill color="danger">{this.state.reminderlist.length}</Badge>:null}
+              <i className="icon-bell" id='reminder'></i>{(this.state.reminderlist.length !== 0)?<Badge pill color="danger">{this.state.reminderlist.length}</Badge>:null}
               <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Reminder" toggle={this.togglepopover}>
                 <PopoverHeader>Reminders</PopoverHeader>
                 <PopoverBody>

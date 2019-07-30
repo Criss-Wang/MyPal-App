@@ -29,6 +29,7 @@ export class InfoCard extends Component {
     constructor(props) {
         super(props);
         this.showTags = this.showTags.bind(this);
+        this.checkdown = this.checkdown.bind(this);
         this.state = {
           fadeIn: true,
           contactUpdated: false,
@@ -36,6 +37,7 @@ export class InfoCard extends Component {
           selfInfo:newInfo,
           selfInfoId:'',
           flag: false,
+          check: false
         };
       }
     // Initialize data
@@ -51,7 +53,8 @@ export class InfoCard extends Component {
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
-                    flag: true
+                    flag: true,
+                    check: true
                 })
             })
           }
@@ -62,7 +65,8 @@ export class InfoCard extends Component {
                 .then(res => {
                   this.setState({
                     selfInfo:res.data,
-                    flag: true
+                    flag: true,
+                    check: true
                 })
               })
           } else {
@@ -73,7 +77,8 @@ export class InfoCard extends Component {
               this.setState({
                 selfInfoId:res.data._id,
                 selfInfo:res.data,
-                flag: true
+                flag: true,
+                check: true
               });
               axios.put(`users/update/${decoded._id}`,newInfoId)
                 .then(console.log("new personal info created"))
@@ -105,13 +110,18 @@ export class InfoCard extends Component {
         )
         })} 
     }
-    
+    checkdown(){
+      this.setState({
+        check: false
+      })
+    }
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
     
     render() {
         const infoId = localStorage.selfInfoId
         let { firstName, lastName, nickname, Department, YOS, Major, Tags, sex,
-            Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note}  = this.state.selfInfo;
+            Recent_Event, Event_Date, Phone, Email, img, Residence, birthday, note}  = this.state.selfInfo;
+            console.log(this.state.selfInfo, infoId)
           return (
                   <Card className='dash-card card-accent-info shadow-sm'>
                     <CardHeader>
@@ -138,6 +148,8 @@ export class InfoCard extends Component {
                                 img={img}
                                 updateInfo = {this.props.updateInfo}
                                 updateSelfInfo = {this.props.updateSelfInfo}
+                                check = {this.state.check}
+                                checkdown = {this.checkdown}
                                /> 
                       </div>
                     </CardHeader> 

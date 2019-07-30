@@ -65,7 +65,7 @@ export class InfoSheet extends Component {
     })
   }
   // Sync the parent's states
-  componentWillMount(){
+  componentDidMount(){
     this.setState({
       id:this.props.id,
       firstName: this.props.firstName,
@@ -88,8 +88,8 @@ export class InfoSheet extends Component {
       img: this.props.img,
     })
   }
-  componentDidUpdate(){
-    if(this.state.id !== this.props.id){
+   componentDidUpdate(){
+    if(this.props.check){
       this.setState({
         id:this.props.id,
         firstName: this.props.firstName,
@@ -111,8 +111,9 @@ export class InfoSheet extends Component {
         note: this.props.note,
         img: this.props.img,
       })
+      this.props.checkdown()
     }
-  }
+  } 
   //For New Contact Submission Modal
   togglemodal() {
     if (this.state.modal){
