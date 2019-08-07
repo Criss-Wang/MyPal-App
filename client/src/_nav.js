@@ -21,11 +21,6 @@ export default {
       url: '/analysis',
       icon: 'fa fa-bar-chart'
     },
-    {
-      name: 'Filter',
-      url: '/filter',
-      icon: 'fa fa-bar-chart'
-    },
     /* {
       name: 'Profile',
       url: '/Profile',

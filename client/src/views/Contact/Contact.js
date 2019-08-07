@@ -10,6 +10,7 @@ import axios from 'axios';
 import { CSVLink } from "react-csv";
 import { Link } from 'react-router-dom';
 import PubSub from 'pubsub-js';
+import Select from 'react-select';
 
 function compare(property){
   return function(a,b){
@@ -25,6 +26,11 @@ function compare(property){
       }
   }
 }
+
+const options = [
+  { value: 'Female', label: 'Female' },
+  { value: 'Male', label: 'Male' },
+];
 
 const exportlist = [
   { label: "first name", key: "firstName" },
@@ -60,6 +66,7 @@ class Contact extends Component {
     this.dropclick = this.dropclick.bind(this);
     this.paginate= this.paginate.bind(this);
     this.clickback = this.clickback.bind(this);
+    this.handleAddMem = this.handleAddMem.bind(this);
 
     this.state = {
       dropdownOpen: false,
@@ -75,8 +82,51 @@ class Contact extends Component {
       searched:false,
       searched2: false,
       flag: false,
+      sorttag:'',
+      filteredlist:[],
+      filtertaglist:[],
+      after:[],
+      selectedOption: null,
     };
   }
+
+  handleAddMem = selectedOption => {
+    if (selectedOption !== null && selectedOption.length !== 0){
+      axios.get('contacts/getcontact')
+        .then(res=>{
+          var newlist = []
+          selectedOption.map((searchtag)=> {
+            res.data.map((item) => {
+                const { Department, YOS, Major, sex} = item
+                if(sex === searchtag.value || Department === searchtag.value || YOS === searchtag.value || Major === searchtag.value){
+                    if(newlist.indexOf(item) === -1){
+                      newlist.push(item)
+                    }
+                }
+            })
+          });
+          this.setState({
+            infos:newlist,
+            totalPage: Math.ceil(newlist.length / 10),
+            totalItem: newlist.length,
+            selectedOption,
+            filtertaglist: selectedOption,
+          })
+        })
+    } else {
+      axios.get('contacts/getcontact')
+        .then(res => {
+          this.setState({
+            infos: res.data,
+            totalPage: Math.ceil(res.data.length / 10),
+            totalItem: res.data.length,
+            selectedOption,
+            filtertaglist: selectedOption,
+          })
+        });
+    }
+  };
+
   // Initialize data
   componentDidMount(){
     axios.get('contacts/getcontact')
@@ -208,10 +258,9 @@ class Contact extends Component {
     let infoDisplay = this.state.infos.slice(indexOfFirstItem, indexOfLastItem); 
 
     return infoDisplay.map((info, index) => {
-       const { _id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
+      const { _id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
         Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note} = info //destructuring
-       return (
-        
+      return (
         <tr key={index}>
         <td className="text-center">
           <div className="avatar">
@@ -264,18 +313,17 @@ class Contact extends Component {
                 note={note}
                 img={img}
                 updateInfo = {this.props.updateInfo}
-                 />
+                />
           <Fill2 SocialAccount={SocialAccount}/>
           <Fill3 handleDelete={this.handleDelete} id={_id}/>
-        </div>  
+          </div>  
         </td>
-      </tr>
-       )
+        </tr> )
     })}
  }
- renderSearchData(){
-  let infoDisplay = this.state.searchlist
-  return infoDisplay.map((info, index) => {
+  renderSearchData(){
+    let infoDisplay = this.state.searchlist
+    return infoDisplay.map((info, index) => {
       const { id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
       Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note} = info //destructuring
       return (
@@ -336,8 +384,8 @@ class Contact extends Component {
               </div>  
               </td>
             </tr>
-    )
-  })
+      )
+    })
   }
 
   render() {
@@ -349,7 +397,27 @@ class Contact extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col>
-            <h1 className="h3 mb-3 text-gray-800">Contacts</h1>
+            <Row>
+              <Col sm='9'>
+                <h1 className="h3 mb-3 text-gray-800">Contacts</h1>
+              </Col>
+              
+              <Col sm='3'>
+                <Select value={this.state.selectedOption} 
+                        placeholder='Filter by...' 
+                        onChange={this.handleAddMem} 
+                        options={options}
+                        theme={theme => ({
+                          ...theme,
+                          colors: {
+                            ...theme.colors,
+                            primary: '#20a8d8',
+                          },
+                        })} 
+                        isMulti 
+                        isSearchable/>
+              </Col>
+            </Row>
             <Fade timeout={200} in={true}>
             <Card className="card-accent-info shadow-sm">
               <CardHeader>

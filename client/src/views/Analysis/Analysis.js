@@ -188,7 +188,8 @@ export class Analysis extends Component {
     var Lg5Dept = [[],[]];
     var monthRange = [];
     var contactLog = {};
-    var data1 = [ , , , , , ];
+    var data1 = [ 0, 0, 0, 0, 0, 0];
+    var data2 = [0, 0, 0, 0, 0, 0];
 
     axios.get('contacts/getcontact')
     .then(res => {
@@ -267,7 +268,8 @@ export class Analysis extends Component {
           monthRange = [...month].slice(m - 5, m + 1);
         }
         monthRange.forEach(month => {
-          data1[monthRange.indexOf(month)] = contactLog[monthToInt[month].toString()]  
+          if (contactLog[monthToInt[month].toString()] === undefined) {data1[monthRange.indexOf(month)] = 0}
+          else {data1[monthRange.indexOf(month)] = contactLog[monthToInt[month].toString()]  }
         })
 
         best5(MajorSize).forEach(major => {
@@ -310,18 +312,22 @@ export class Analysis extends Component {
                 hoverBackgroundColor: [...colorset].slice(0,Lg5Dept[0].length),
               }], 
           },
-          ContactDiff: data1[4]? data1[5]-data1[4]:data1[5],
+          ContactDiff: data1[5],
         })
+        for (var i = 0; i < data1.length; i++){
+          data2[i] = data1.slice(0, i+1).reduce((a, b) => a + b, 0)
+        }
         this.setState(prevState => ({
           line: {
             labels: monthRange,          
             datasets: prevState.line.datasets.map(
-              el => el.label === 'Contacts Number'? { ...el, data: data1 }: el
+              el => el.label === 'Contacts Number'? { ...el, data: data2 }: el
             )
           }
         }))
         contactLog = {};
-        data1 = [ , , , , , ];
+        data1 = [ 0, 0, 0, 0, 0, 0];
+        data2 = [ 0, 0, 0, 0, 0, 0];
     });
     axios.get('groups/getgroup')
     .then(res => {
@@ -385,8 +391,14 @@ export class Analysis extends Component {
           monthRange = [...month].slice(m - 5, m + 1);
         }
         monthRange.forEach(month => {
-          data1[monthRange.indexOf(month)] = contactLog[monthToInt[month].toString()]  
+          if (contactLog[monthToInt[month].toString()] === undefined) {data1[monthRange.indexOf(month)] = 0} 
+          else {data1[monthRange.indexOf(month)] = contactLog[monthToInt[month].toString()] }
         })
+
+        for (var i = 0; i < data1.length; i++){
+          data2[i] = data1.slice(0, i+1).reduce((a, b) => a + b, 0)
+        }
+
         this.setState({
           GroupAdded:res.data.length,
           EventAdded:countEvent,
@@ -394,19 +406,20 @@ export class Analysis extends Component {
           MostAPerson: best(PersonActive)[0],
           LgGroup: best(GroupSize),
           NwEvent: NewEvent,
-          GroupDiff: data1[4]? data1[5]-data1[4]:data1[5],
+          GroupDiff: data1[5],
           EventDiff: countEventThisMon,
         })
         this.setState(prevState => ({
           line: {
             labels: monthRange,          
             datasets: prevState.line.datasets.map(
-              el => el.label === 'Group Number'? { ...el, data: data1 }: el
+              el => el.label === 'Group Number'? { ...el, data: data2 }: el
             )
           }
         }))
         contactLog = {};
-        data1 = [ , , , , , ];
+        data1 = [ 0, 0, 0, 0, 0, ];
+        data2 = [ 0, 0, 0, 0, 0, ];
     });
   }
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -430,7 +443,7 @@ export class Analysis extends Component {
             <Widget header={`${this.state.GroupAdded}`} val={`${this.state.GroupDiff}`} mainText="Groups Created" icon="fa fa-users" color="warning" variant="1" />
           </Col>
           <Col xs="12" sm="6" lg="3">
-            <Widget header={`${this.state.TagAdded}`} val="0" mainText="Tags Shared" icon="fa fa-tags" color="danger" variant="1" />
+            <Widget header={`${this.state.TagAdded}`} val="null" mainText="Tags Shared" icon="fa fa-tags" color="danger" variant="1" />
           </Col>
         </Row>
         <Row>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
-    Button,Card,CardBody, CardHeader, ListGroupItem, ListGroup, Spinner
+    Card,CardBody, CardHeader, ListGroupItem, ListGroup, Spinner
   } from 'reactstrap';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const sortdate = (arr) => {
@@ -218,9 +218,6 @@ export class RecentEvent extends Component {
                 <CardHeader>
                   <span>Recent Events</span>
                   <div className="card-header-actions">
-                  <Link to="/profile">
-                    <Button outline className='card-header-action' id='modalbtn'><i className='fa fa-location-arrow'></i> </Button>
-                  </Link>
                   </div>
                 </CardHeader>
                 <CardBody className='pl-0 pt-0 ml-0 mt-0 mr-0 pr-0 mb-0 pb-3'>

@@ -78,7 +78,8 @@ class Widget extends Component {
     };
 
     const change = function (value) {
-        if (parseInt(value) === 0) { return <div> </div>}
+        if (parseInt(value) === 0) { return <div className='text-right' style={{ color: 'grey' }}><i className="fa fa-minus" ></i> <div className='this-month'>this month</div></div>}
+        if (value === 'null') { return <div></div>}
         return ((parseInt(value) > 0 )?
         <div className='text-right' style={{ color: 'grey' }}><i className="fa fa-long-arrow-up" ></i> {value} <div className='this-month'>this month</div></div>:
         <div className='text-right' style={{ color: 'grey' }}><i className="fa fa-long-arrow-down" ></i> {Math.abs(parseInt(value))} <div className='this-month'>this month</div></div>);
