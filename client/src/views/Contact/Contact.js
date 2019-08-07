@@ -59,6 +59,7 @@ class Contact extends Component {
     this.renderSearchData = this.renderSearchData.bind(this);
     this.dropclick = this.dropclick.bind(this);
     this.paginate= this.paginate.bind(this);
+    this.clickback = this.clickback.bind(this);
 
     this.state = {
       dropdownOpen: false,
@@ -72,6 +73,7 @@ class Contact extends Component {
       totalItem: 0,
       searchlist:[],
       searched:false,
+      searched2: false,
       flag: false,
     };
   }
@@ -90,6 +92,7 @@ class Contact extends Component {
     this.pubsub_token = PubSub.subscribe('search',function(topic,contactlist){
       this.setState({
         searched: true,
+        searched2: true,
         searchlist: contactlist,
       })}.bind(this));
   }
@@ -103,7 +106,7 @@ class Contact extends Component {
                 infos: res.data,
                 totalPage: Math.ceil(res.data.length / 10),
                 totalItem: res.data.length,
-                flag:true
+                flag:true,
               })
           });
       this.props.updateInfo(false);
@@ -169,6 +172,11 @@ class Contact extends Component {
       dropdownOpen: !this.state.dropdownOpen,
     });
   }
+
+  clickback(){
+    window.location.reload(); 
+  }
+
   dropclick(e){
     var sortby = '';
     if (e.target.value === 'Name front'){sortby='firstName'}
@@ -266,8 +274,7 @@ class Contact extends Component {
     })}
  }
  renderSearchData(){
-  let infoDisplay = this.state.searchlist 
-  console.log(this.state.searchlist)
+  let infoDisplay = this.state.searchlist
   return infoDisplay.map((info, index) => {
       const { id, firstName, lastName, nickname, Department, YOS, Major, Group, Tags, sex,
       Recent_Event, Event_Date, Phone, Email, SocialAccount, img, Residence, birthday, note} = info //destructuring
@@ -285,7 +292,7 @@ class Contact extends Component {
                 </div>
               </td>
               <td className="text-center">
-                <span className='text-muted'>{(Group.length === 0 ) ? 'None': Group}</span>
+                <span className='text-muted'>{(Group.length === 0 ) ? 'None': this.renderGroups(Group)}</span>
               </td>
               <td>
                 <div className="text-center">
@@ -329,9 +336,9 @@ class Contact extends Component {
               </div>  
               </td>
             </tr>
-  )
-})
-}
+    )
+  })
+  }
 
   render() {
     const indexOfLastItem = (this.state.currentPage!==this.state.totalPage)?(this.state.currentPage * this.state.itemsPerpage):this.state.totalItem;
@@ -346,9 +353,12 @@ class Contact extends Component {
             <Fade timeout={200} in={true}>
             <Card className="card-accent-info shadow-sm">
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Contact Book
+                <i className="fa fa-align-justify"></i> {(this.state.searched)?'Search Result': 'Contact Book'}
+                {(this.state.searched)?<Button outline color="primary"  className="ml-3   " size='sm' onClick={() => { this.clickback()}}>
+                  <i className='fa fa-arrow-left mr-1'></i> Back</Button>
+                  :null}
                 <div className="card-header-actions">
-                <ButtonDropdown className="mr-3 " isOpen={this.state.dropdownOpen} toggle={() => { this.toggledrop(); }}>
+                <ButtonDropdown className="mr-3 " isOpen={this.state.dropdownOpen} toggle={() => { this.toggledrop()}}>
                   <DropdownToggle caret color="primary" className='float-right' size ='sm'>
                     Sort By 
                   </DropdownToggle>
@@ -364,10 +374,7 @@ class Contact extends Component {
                 <Button color="primary"  className="mr-3 " size='sm' onClick={this.toggleExport}>
                   <CSVLink className='export' data={this.state.infos} headers={this.state.headers} filename={"Contact_Book.csv"}><i className="fa fa-cloud-download"></i>&nbsp; Export </CSVLink>
                 </Button>
-                
                 <Link to="/visual"><Button color="primary"  className="mr-3 " size='sm'><i className='fa fa-eye mr-1'></i> Go Visual</Button></Link>
-                
-
                 </div>
               </CardHeader>
              <CardBody className=' pb-2 mb-0'>
