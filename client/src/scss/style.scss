@@ -101,9 +101,9 @@ img.user-icon-header{
     font-size: 10px;
 }
 //DashBoard
-.dash-card{
+/* .dash-card{
     max-height: 450px;
-}
+} */
 
 .Username{
     color: #63c2de;
@@ -113,6 +113,10 @@ img.user-icon-header{
     padding-top: 5px;
     padding-bottom: 0;
     margin-bottom: 0;
+}
+
+.rounded-circle{
+    width: 50%;
 }
 
 .user-tag{

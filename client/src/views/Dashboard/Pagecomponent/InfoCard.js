@@ -156,7 +156,7 @@ export class InfoCard extends Component {
                     <CardBody className='text-center'>
                     {(this.state.flag)?
                       <div>
-                        <img src={(img!== '')?img:'../../assets/img/defaultUser.png'}  className="rounded-circle w-50 pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
+                        <img src={(img!== '')?img:'../../assets/img/defaultUser.png'}  className="rounded-circle pb-2" id='user-icon' alt="admin@bootstrapmaster.com" />
                         <h4 className='pb-0 mb-0'>
                             <strong className='Username'>{(nickname === '')?`${firstName} ${lastName}`:`${firstName} ${lastName}, ${nickname}`} </strong>
                             {(sex === "Male")?<i className='fa fa-mars male'></i>:<i className='fa fa-venus female'></i>}
