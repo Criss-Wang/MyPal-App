@@ -40,8 +40,10 @@ export class RecentSummary extends Component {
                   if(thismonth.getMonth() === month){
                     count1++;
                   }
-                  if(contact.Recent_Event !== ''){
-                    count2++
+                  if(contact.Recent_Event !== '' ){
+                    if (parseInt(contact.Event_Date.split('-')[1] - 1 === month)){
+                      count2++
+                    }
                   }
                 });
               })
@@ -54,7 +56,10 @@ export class RecentSummary extends Component {
               newdata.forEach(group => {
                 if (group.Events !== []){
                 group.Events.forEach(event => {
-                  count2++
+                  var event_date = new Date(event.EventDate);
+                  if (event_date.getMonth() == month){
+                    count2++
+                  }
                 })
                 personValue.forEach(person => {
                   if (group.name.includes(person[0])){
@@ -95,7 +100,7 @@ export class RecentSummary extends Component {
               <Col md='6' className='text-right'>
                 <div>
                 <small className="text-muted">
-                  <i className="icon-social-skype"></i>&nbsp; {`${person[3]} Tags`}
+                  <i className="icon-tag"></i>&nbsp; {`${person[3]} Tags`}
                 </small>
                 </div>
                 <div>
@@ -123,7 +128,7 @@ export class RecentSummary extends Component {
                 <Col md='6' className='text-right'>
                   <div>
                   <small className="text-muted">
-                    <i className="icon-social-skype"></i>&nbsp; {`${person[3]} Tags`}
+                    <i className="icon-tag"></i>&nbsp; {`${person[3]} Tags`}
                   </small>
                   </div>
                   <div>
