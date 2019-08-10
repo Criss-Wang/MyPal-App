@@ -23,11 +23,13 @@ var Users = require('./routes/Users')
 var Groups = require('./routes/Groups')
 var Contacts = require('./routes/Contacts')
 var Personals = require('./routes/Personals')
+var LoginNUS = require('./routes/LoginNUS')
 
 app.use('/users', Users)
 app.use('/groups', Groups)
 app.use('/contacts', Contacts)
 app.use('/personals', Personals)
+app.use('/auth', LoginNUS)
 
 // Serve static assets if in production
 if(process.env.NODE_ENV == 'production'){

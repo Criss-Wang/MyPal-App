@@ -168,7 +168,7 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         {/* Shrinkable Brand */}
-        <AppNavbarBrand
+        <AppNavbarBrand tag={NavLink} to={"/"}
           full={{ src: logo, width: 140, height: 35, alt: 'MyPal Logo' }}
           minimized={{ src: sygnet, width: 34, height: 34, alt: 'MyPal Logo' }}
           className='pl-2'/>

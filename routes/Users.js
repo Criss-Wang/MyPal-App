@@ -49,6 +49,7 @@ users.post('/login', (req, res) => {
         .then(user => {
             if (user) {
                 if (bcrypt.compareSync(req.body.password, user.password)) {
+                    console.log(req.body.password, user.password)
                     const payload = {
                         _id: user._id,
                         username: user.username,
@@ -59,7 +60,8 @@ users.post('/login', (req, res) => {
                         expiresIn: 1440
                     })
                     res.send(token)
-                } else {
+                } else {console.log(req.body.password, user.password)
+                    
                     res.json({ error: "Invalid password" })
                 }
             } else {

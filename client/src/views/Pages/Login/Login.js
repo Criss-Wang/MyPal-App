@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Alert, Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
+import Cookies from 'universal-cookie';
 
 class Login extends Component {
 
@@ -17,6 +18,33 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onDismiss = this.onDismiss.bind(this);
+}
+componentWillMount(){
+  const jwtToken = new Cookies().get('token');
+  let errors = [];
+  const decoded = (jwtToken === undefined) ? false: jwt_decode(jwtToken);
+  if (decoded) {
+    const user = {
+      email: decoded.email,
+      password: "test123"
+    }
+    console.log(user)
+    axios.post('/users/login', user)
+        .then(res => {
+          const data = res.data;
+          console.log(data)
+          if (!data.error){
+            localStorage.setItem('usertoken', res.data)
+            const decoded = jwt_decode(res.data)
+            localStorage.setItem('selfInfoId', decoded.infoId) // store the token to local storage
+            this.props.history.push('/dashboard')
+          } else {
+            errors.push({msg: data.error})
+            this.setState({errors});
+            return false;
+          }
+    })
+  }  
 }
 
 // Error display
@@ -110,8 +138,9 @@ errorDisplay(){
                       </InputGroup>
                       <Row>
                         <Col xs="12 text-left">
-                          <Button color="primary" className="px-4" type='submit'>Login</Button>
-                          <Button color='secondary' className="btn-twitter nuslogin" ><span><i className='fa fa-user mr-2'></i> NUS Login</span></Button>
+                          <Button color="primary" className="px-4" type='submit' >Login</Button>
+                          <Button color='secondary' className="btn-twitter nuslogin" ><a href='http://localhost:5000/auth/nus' className='NUS'><i className='fa fa-user mr-2'></i> NUS Login</a></Button>
+                          
                         </Col>
                       </Row>
                     </Form>

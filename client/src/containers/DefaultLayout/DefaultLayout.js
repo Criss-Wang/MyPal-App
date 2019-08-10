@@ -6,7 +6,7 @@ import {
   AppFooter,AppHeader, AppSidebar, AppSidebarMinimizer,
   AppBreadcrumb2 as AppBreadcrumb,
   AppSidebarNav2 as AppSidebarNav,} from '@coreui/react';
-
+import Cookies from 'universal-cookie';
 // sidebar nav config
 import navigation from '../../_nav';
 // routes config
@@ -51,6 +51,7 @@ class DefaultLayout extends Component {
     e.preventDefault()
     localStorage.removeItem('usertoken')
     localStorage.removeItem('selfInfoId')
+    new Cookies().remove('token');
     this.props.history.push('/login')
   }
 

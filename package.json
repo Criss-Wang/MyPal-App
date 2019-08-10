@@ -21,12 +21,16 @@
     "cors": "^2.8.4",
     "d3": "^5.9.7",
     "express": "^4.16.3",
-    "jsonwebtoken": "^7.4.2",
+    "jsonwebtoken": "^7.4.3",
     "mongodb": "^3.1.6",
     "mongoose": "^5.2.15",
     "nodemon": "^1.18.3",
+    "passport": "^0.4.0",
+    "passport-openid": "^0.4.0",
+    "passportnext-nus-openid": "^1.0.0",
     "pubsub-js": "^1.7.0",
     "react-circular-progressbar": "^2.0.1",
-    "react-force-graph": "^1.23.1"
+    "react-force-graph": "^1.23.1",
+    "universal-cookie": "^4.0.2"
   }
 }
