@@ -37,7 +37,7 @@ class Filters extends Component {
     };
 
   onapply(){ 
-      axios.get('http://localhost:5000/contacts/getcontact')
+      axios.get('contacts/getcontact')
       .then(res=>{
         var newlist = []
         this.state.filtertaglist.map((searchtag)=> {
