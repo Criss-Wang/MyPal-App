@@ -36,7 +36,9 @@ componentWillMount(){
           if (!data.error){
             localStorage.setItem('usertoken', res.data)
             const decoded = jwt_decode(res.data)
-            localStorage.setItem('selfInfoId', decoded.infoId) // store the token to local storage
+            localStorage.setItem('selfInfoId', decoded.infoId)
+            localStorage.setItem('contactId', decoded.contactId)
+            localStorage.setItem('groupId', decoded.groupId) // store the token to local storage
             this.props.history.push('/dashboard')
           } else {
             errors.push({msg: data.error})
@@ -73,7 +75,9 @@ onSubmit (e) {
             localStorage.setItem('usertoken', res.data)
             const decoded = jwt_decode(res.data)
             console.log(decoded.infoId)
-            localStorage.setItem('selfInfoId', decoded.infoId) // store the token to local storage
+            localStorage.setItem('selfInfoId', decoded.infoId)
+            localStorage.setItem('contactId', decoded.contactId)
+            localStorage.setItem('groupId', decoded.groupId) // store the token to local storage
             this.props.history.push('/dashboard')
           } else {
             errors.push({msg: data.error})

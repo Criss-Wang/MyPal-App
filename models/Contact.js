@@ -9,7 +9,7 @@ const Schema = mongoose.Schema
         type: String,
     },
 })
-const ContactSchema = new Schema({
+const Contacts = new Schema({
     firstName: {
         type: String,
         required:true,
@@ -72,5 +72,9 @@ const ContactSchema = new Schema({
         default: Date.now()
     } 
 }) 
+
+const ContactSchema = new Schema({
+    contact: [Contacts],
+})
 
 module.exports = Contact = mongoose.model('contacts', ContactSchema)

@@ -29,7 +29,7 @@ class Groups extends Component {
     };
   }
   componentDidMount(){
-    axios.get('groups/getgroup')
+    axios.get(`groups/getgroup/${localStorage.groupId}`)
          .then(response => {
              this.setState({
               GroupInfo: response.data,
@@ -41,7 +41,7 @@ class Groups extends Component {
   };
   //Create New Group
   getGroupInfo(_info){
-    axios.post('groups/new', _info)
+    axios.post(`groups/new/${localStorage.groupId}`, _info)
         .then(res => {
           this.setState({
             GroupInfo: res.data,
@@ -53,7 +53,7 @@ class Groups extends Component {
   
   //updata Info
   updateGroupInfo(_info, id){
-    axios.put(`groups/updategroup/${id}`, _info)
+    axios.put(`groups/${localStorage.groupId}/updategroup/${id}`, _info)
         .then(response => {
           this.setState({
             GroupInfo: response.data,
@@ -64,7 +64,7 @@ class Groups extends Component {
   }
 
   deleteGroupInfo(id){
-    axios.delete(`groups/deletegroup/${id}`)
+    axios.delete(`groups/${localStorage.groupId}/deletegroup/${id}`)
         .then(response => {
         this.setState({
           GroupInfo: response.data,

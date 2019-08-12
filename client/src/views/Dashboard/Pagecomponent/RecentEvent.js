@@ -103,7 +103,7 @@ export class RecentEvent extends Component {
   async contact(){ 
     var data = [];
     var tempdata = [];
-    await axios.get('contacts/getcontact')
+    await axios.get(`contacts/getcontact/${localStorage.contactId}`)
           .then(res => {
                 let sortdata = res.data
                 sortdata.forEach(contact => {
@@ -124,7 +124,7 @@ export class RecentEvent extends Component {
   async group(){
     var data = [];
     var tempdata = [];
-    await axios.get('groups/getgroup')
+    await axios.get(`groups/getgroup/${localStorage.groupId}`)
         .then(res => {
           let newdata  = res.data;
           newdata.forEach(group => {

@@ -104,7 +104,7 @@ export class InfoSheet extends Component {
       note:this.state.note,
       SocialAccount:sociallist,
     }
-    axios.post('contacts/new', info)
+    axios.post(`contacts/new/${localStorage.contactId}`, info)
     .then(res => {
       this.props.updateInfo(true);
       this.props.updateEventInfo(true); //update the contact table upon addition

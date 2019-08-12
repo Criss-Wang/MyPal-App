@@ -92,7 +92,7 @@ class Contact extends Component {
 
   handleAddMem = selectedOption => {
     if (selectedOption !== null && selectedOption.length !== 0){
-      axios.get('contacts/getcontact')
+      axios.get(`contacts/getcontact/${localStorage.contactId}`)
         .then(res=>{
           var newlist = []
           selectedOption.map((searchtag)=> {
@@ -114,7 +114,7 @@ class Contact extends Component {
           })
         })
     } else {
-      axios.get('contacts/getcontact')
+      axios.get(`contacts/getcontact/${localStorage.contactId}`)
         .then(res => {
           this.setState({
             infos: res.data,
@@ -129,7 +129,7 @@ class Contact extends Component {
 
   // Initialize data
   componentDidMount(){
-    axios.get('contacts/getcontact')
+    axios.get(`contacts/getcontact/${localStorage.contactId}`)
     .then(res => {
         this.setState({
           infos: res.data,
@@ -150,7 +150,7 @@ class Contact extends Component {
   // Info Addition updated
   componentDidUpdate(){
     if(this.state.contactUpdated !== this.props.contactUpdated){
-      axios.get('contacts/getcontact')
+      axios.get(`contacts/getcontact/${localStorage.contactId}`)
           .then(res => {
               this.setState({
                 infos: res.data,
@@ -166,7 +166,7 @@ class Contact extends Component {
   //Handle the delete Button for child component delete.js
   handleDelete(_State){
       if(_State.delete === true){
-          axios.delete(`contacts/deletecontact/${_State.id}`)
+          axios.delete(`contacts/${localStorage.contactId}/deletecontact/${_State.id}`)
             .then(response => {
               console.log(response)
                 this.setState({

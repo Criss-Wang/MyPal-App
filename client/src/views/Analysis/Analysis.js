@@ -191,7 +191,7 @@ export class Analysis extends Component {
     var data1 = [ 0, 0, 0, 0, 0, 0];
     var data2 = [0, 0, 0, 0, 0, 0];
 
-    axios.get('contacts/getcontact')
+    axios.get(`contacts/getcontact/${localStorage.contactId}`)
     .then(res => {
         res.data.forEach(contact => {
           var ContactDate = new Date(contact.date) // For Month Check
@@ -329,7 +329,7 @@ export class Analysis extends Component {
         data1 = [ 0, 0, 0, 0, 0, 0];
         data2 = [ 0, 0, 0, 0, 0, 0];
     });
-    axios.get('groups/getgroup')
+    axios.get(`groups/getgroup/${localStorage.groupId}`)
     .then(res => {
         res.data.forEach(group => {
           // Compute Montly Number

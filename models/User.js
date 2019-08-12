@@ -19,6 +19,14 @@ const UserSchema = new Schema({
         type:String,
         default: ''
     },
+    contactId: {
+        type:String,
+        default: ''
+    },
+    groupId: {
+        type:String,
+        default: ''
+    },
     date: {
         type: Date,
         default: Date.now()

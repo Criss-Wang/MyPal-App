@@ -41,7 +41,7 @@ export class InfoSheet extends Component {
     let avail_friends = [];
     let img = [];
     let id = []
-    await axios.get('contacts/getcontact')
+    await axios.get(`contacts/getcontact/${localStorage.contactId}`)
     .then(res => {
           let data = res.data
           data.forEach(contact => {

@@ -54,7 +54,9 @@ users.post('/login', (req, res) => {
                         _id: user._id,
                         username: user.username,
                         email: user.email,
-                        infoId: user.infoId
+                        infoId: user.infoId,
+                        contactId: user.contactId,
+                        groupId: user.groupId
                     }
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
                         expiresIn: 1440

@@ -40,9 +40,9 @@ export class visual extends Component {
         this.fg.d3Force('link', d3.forceLink().distance(function (link) { return (1/link.strength) * 30 }))
         var nodes = [{ id: "Grouping", group: 0, label: "Grouping", level: 1}];
         var links = [];
-        axios.get('contacts/getcontact')
+        axios.get(`contacts/getcontact/${localStorage.contactId}`)
         .then(res => {
-            
+            console.log(res.data)
             var contact = res.data;
             contact.forEach(contact => {
                 var name = `${contact.firstName} ${contact.lastName}`
@@ -52,9 +52,10 @@ export class visual extends Component {
                 data: { nodes: [...nodes], links: [...links] },
             })
         })
-        axios.get('groups/getgroup')
+        axios.get(`groups/getgroup/${localStorage.groupId}`)
         .then(res => {
             var group = res.data;
+            console.log(res.data)
             group.forEach(group => {
                 var GroupName = group.GroupName;
                 nodes.push({ id: GroupName, group: 1, label: GroupName, level: 1 })

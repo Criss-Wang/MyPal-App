@@ -44,6 +44,7 @@ class DefaultHeader extends Component {
     const token = localStorage.usertoken
     const decoded = jwt_decode(token)
     const infoId = localStorage.selfInfoId
+    const contactId = localStorage.contactId
     axios.get(`personals/getPersonal/${infoId}`)
           .then(res => {
               const Name = `${res.data.firstName} ${res.data.lastName}`
@@ -53,8 +54,9 @@ class DefaultHeader extends Component {
                   username: decoded.username
               })
           });
-    axios.get('contacts/getcontact')
+    axios.get(`contacts/getcontact/${contactId}`)
     .then(res=>{
+      console.log(res.data)
       this.setState({
         list:res.data,
       })
@@ -67,7 +69,6 @@ class DefaultHeader extends Component {
           var birthdaystr  = birthday.split('-');
           var month1 = parseInt(birthdaystr[1]);
           var day1 = parseInt(birthdaystr[2]);
-          console.log(today_month, today_day, day1, month1 )
           if(month1 === today_month && day1 === today_day){
             const showindex = 1,oldindex = 0;
             this.state.reminderlist.push({
@@ -141,7 +142,7 @@ class DefaultHeader extends Component {
      })
   }
   onInputClick(){
-    axios.get('contacts/getcontact')
+    axios.get(`contacts/getcontact/${localStorage.contactId}`)
          .then(res=>{
            this.setState({
              list:res.data,

@@ -51,6 +51,8 @@ class DefaultLayout extends Component {
     e.preventDefault()
     localStorage.removeItem('usertoken')
     localStorage.removeItem('selfInfoId')
+    localStorage.removeItem('groupId')
+    localStorage.removeItem('contactId')
     new Cookies().remove('token');
     this.props.history.push('/login')
   }

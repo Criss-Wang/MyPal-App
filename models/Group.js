@@ -15,7 +15,7 @@ const EventSchema = new Schema({
         default: ""
     },
 })
-const GroupSchema = new Schema({
+const Groups = new Schema({
     name: {
         type: [String],
         required: true
@@ -38,6 +38,10 @@ const GroupSchema = new Schema({
         type: Date,
         default: Date.now()
     }
+})
+
+const GroupSchema = new Schema({
+    group: [Groups],
 })
 
 module.exports = Group = mongoose.model('groups', GroupSchema)
