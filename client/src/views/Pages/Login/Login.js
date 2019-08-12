@@ -37,9 +37,25 @@ componentWillMount(){
             localStorage.setItem('usertoken', res.data)
             const decoded = jwt_decode(res.data)
             localStorage.setItem('selfInfoId', decoded.infoId)
-            localStorage.setItem('contactId', decoded.contactId)
-            localStorage.setItem('groupId', decoded.groupId) // store the token to local storage
-            this.props.history.push('/dashboard')
+            if (decoded.contactId === ""){
+              axios.post('contacts/newContact', null)
+                  .then(res => {
+                    console.log(decoded._id, res.data[0]._id)
+                    localStorage.setItem('contactId', res.data[0]._id)
+                    axios.put(`users/update/${decoded._id}`,{contactId:res.data[0]._id})
+                        .then(console.log("new contactId created"))
+                    axios.post('groups/newGroup', null)
+                    .then(res => {
+                      localStorage.setItem('groupId', res.data[0]._id)
+                      axios.put(`users/update/${decoded._id}`,{groupId:res.data[0]._id})
+                          .then(console.log("new groupId created"),this.props.history.push('/dashboard'))
+                    })
+                  })
+            } else {
+              localStorage.setItem('contactId', decoded.contactId)
+              localStorage.setItem('groupId', decoded.groupId)
+              this.props.history.push('/dashboard')
+            }
           } else {
             errors.push({msg: data.error})
             this.setState({errors});
@@ -48,6 +64,7 @@ componentWillMount(){
     })
   }  
 }
+
 
 // Error display
 onDismiss() {
@@ -69,16 +86,32 @@ onSubmit (e) {
     }
 
     axios.post('users/login', user)
-        .then(res => {
+        .then( async(res) => {
           const data = res.data;
           if (!data.error){
             localStorage.setItem('usertoken', res.data)
             const decoded = jwt_decode(res.data)
-            console.log(decoded.infoId)
+            console.log(decoded.infoId, decoded.contactId)
             localStorage.setItem('selfInfoId', decoded.infoId)
-            localStorage.setItem('contactId', decoded.contactId)
-            localStorage.setItem('groupId', decoded.groupId) // store the token to local storage
-            this.props.history.push('/dashboard')
+            if (decoded.contactId === ""){
+              axios.post('contacts/newContact', null)
+                  .then(res => {
+                    console.log(decoded._id, res.data[0]._id)
+                    localStorage.setItem('contactId', res.data[0]._id)
+                    axios.put(`users/update/${decoded._id}`,{contactId:res.data[0]._id})
+                        .then(console.log("new contactId created"))
+                    axios.post('groups/newGroup', null)
+                    .then(res => {
+                      localStorage.setItem('groupId', res.data[0]._id)
+                      axios.put(`users/update/${decoded._id}`,{groupId:res.data[0]._id})
+                          .then(console.log("new groupId created"),this.props.history.push('/dashboard'))
+                    })
+                  })
+            } else {
+              localStorage.setItem('contactId', decoded.contactId)
+              localStorage.setItem('groupId', decoded.groupId)
+              this.props.history.push('/dashboard')
+            }
           } else {
             errors.push({msg: data.error})
             this.setState({errors});

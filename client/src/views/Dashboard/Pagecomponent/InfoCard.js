@@ -45,9 +45,6 @@ export class InfoCard extends Component {
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
         const infoId = localStorage.selfInfoId
-        const contactId = localStorage.contactId
-        const groupId = localStorage.groupId
-
         if (decoded.infoId !== ''){ 
             this.setState({
               selfInfoId: decoded.infoId
@@ -85,26 +82,10 @@ export class InfoCard extends Component {
               });
               axios.put(`users/update/${decoded._id}`,newInfoId)
                 .then(
-                  function(){
-                    if (contactId === ""){
-                      axios.post('contacts/newContact', null)
-                          .then(res => {
-                            localStorage.setItem('contactId', res.data._id)
-                            axios.put(`users/update/${decoded._id}`,{contactId:res.data._id})
-                                .then(console.log("new contactId created"))
-                          })
-                    }
-                    if (groupId === ""){
-                      axios.post('groups/newGroup', null)
-                          .then(res => {
-                            localStorage.setItem('groupId', res.data._id)
-                            axios.put(`users/update/${decoded._id}`,{groupId:res.data._id})
-                                .then(console.log("new contactId created"))
-                          })
-                    }
-                  }
+                  console.log("infoId Updated")
                 )
             })
+            
         }}
     }
 
@@ -143,7 +124,6 @@ export class InfoCard extends Component {
         const infoId = localStorage.selfInfoId
         let { firstName, lastName, nickname, Department, YOS, Major, Tags, sex,
             Recent_Event, Event_Date, Phone, Email, img, Residence, birthday, note}  = this.state.selfInfo;
-            console.log(this.state.selfInfo, infoId)
           return (
                   <Card className='dash-card card-accent-info shadow-sm'>
                     <CardHeader>

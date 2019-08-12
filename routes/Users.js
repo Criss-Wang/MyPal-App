@@ -76,9 +76,11 @@ users.post('/login', (req, res) => {
 })
 
 users.put('/update/:id', (req, res) =>{
+
     User.findByIdAndUpdate({_id:req.params.id},req.body)
         .then(() => {
-            console.log('Userinfo Created!')}) 
+            res.json('info Created')
+            console.log('info Created!')}) 
 })
 
 users.get('/dashboard', (req, res) => {

@@ -45,6 +45,7 @@ class DefaultHeader extends Component {
     const decoded = jwt_decode(token)
     const infoId = localStorage.selfInfoId
     const contactId = localStorage.contactId
+    console.log(contactId)
     axios.get(`personals/getPersonal/${infoId}`)
           .then(res => {
               const Name = `${res.data.firstName} ${res.data.lastName}`
