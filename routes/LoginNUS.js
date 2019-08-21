@@ -43,8 +43,8 @@ const findOrCreate = (profile, func) => {
 
 
 passport.use(new nusStrategy({
-    returnURL: `https://mypal-app.herokuapp.com/auth/nus/return`,
-    realm: "https://mypal-app.herokuapp.com",
+    returnURL: `http://localhost:5000/auth/nus/return`,
+    realm: "http://localhost:3000",
     profile: true,
     },
     function (identifier, profile, done) {
@@ -71,7 +71,7 @@ nusLogin.get('/nus/return',
             };
             const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 }); //modify secret value
             res.cookie('token', token, { httpOnly: false}); 
-            res.redirect("https://mypal-app.herokuapp.com/#/dashboard");
+            res.redirect("http://localhost:3000/#/dashboard");
         })(req, res, next)
     });
 

@@ -66,7 +66,7 @@ class DefaultHeader extends Component {
       var today_day = today.getDate();
       res.data.map((item) => {
         if (item.birthday !== ''){
-        var { firstName, lastName, birthday } = item
+        var { firstName, lastName, birthday, img } = item
           var birthdaystr  = birthday.split('-');
           var month1 = parseInt(birthdaystr[1]);
           var day1 = parseInt(birthdaystr[2]);
@@ -78,6 +78,7 @@ class DefaultHeader extends Component {
               lastName,
               birthday,
               oldindex,
+              img
             });
         }
       }
@@ -117,11 +118,11 @@ class DefaultHeader extends Component {
     if (this.state.reminderlist.length!==0){
       var reminders = this.state.reminderlist;
       return reminders.map((info, index) => {
-        const {lastName,birthday} = info
+        const {lastName,birthday, img} = info
         return (
                 <ListGroupItem key={index} action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
                   <div className="avatar float-right">
-                    <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
+                    <img className="img-avatar" src={(img !== '')? img:'assets/img/defaultUser.png'} alt="admin@bootstrapmaster.com"></img>
                   </div>
                   <div>Birthday for <strong>{lastName}</strong> </div>
                   <small className="text-muted mr-3">

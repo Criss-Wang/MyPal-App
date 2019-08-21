@@ -99,7 +99,7 @@ class RecentAdd extends Component {
 
   //Change the infos into sliced infoDisplay
   renderTableData() {
-    if (this.state.infos !== []){
+    if (this.state.infos.length !== 0){
       let infoDisplay = [];
       if (this.state.infos.length >= 5){
         infoDisplay = this.state.infos.slice(this.state.infos.length-5, this.state.infos.length).reverse(); 
@@ -174,7 +174,7 @@ class RecentAdd extends Component {
         </td>
       </tr>
        )
-    })}
+    })} 
  }
 
   render() {
@@ -187,23 +187,26 @@ class RecentAdd extends Component {
         <CardBody className=' pb-2 mb-4 text-center'>
           {/* Main Table for display */}
           {(this.state.flag)?
-          <Fade timeout={200} in={true}>
-            <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
-              <thead className="thead-light">
-              <tr>
-                <th className="text-center"><i className="icon-people"></i></th>
-                <th>Name</th>
-                <th className="text-center">Group</th>
-                <th className="text-center">Tags</th>
-                <th className="text-center mr-2">Recent events</th>
-                <th>Contacts</th>
-                <th> </th>
-              </tr>
-              </thead>
-              <tbody>
-                {this.renderTableData()}
-              </tbody>
-            </Table>
+          <Fade timeout={200} in={true}>  
+            {(this.state.infos.length !== 0)?
+            
+              <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
+                <thead className="thead-light">
+                <tr>
+                  <th className="text-center"><i className="icon-people"></i></th>
+                  <th>Name</th>
+                  <th className="text-center">Group</th>
+                  <th className="text-center">Tags</th>
+                  <th className="text-center mr-2">Recent events</th>
+                  <th>Contacts</th>
+                  <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                  {this.renderTableData()}
+                </tbody>
+              </Table>
+            :<div className="animated fadeIn text-center">Add your first contact via the "+ Add Contact" on nav bar</div>}
           </Fade>
           :
           <Spinner style={{width: '1.2rem',height: '1.2rem'}} color = "primary"/>}             

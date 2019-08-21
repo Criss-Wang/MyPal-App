@@ -106,12 +106,13 @@ export class InfoCard extends Component {
     //Display tags on info card
     showTags(){
         let {Tags} = this.state.selfInfo;
-        if (Tags !== []){
+        if (Tags.length !== 0){
+          console.log(Tags)
             return Tags.map((tag, index) =>{
                 return (
                     <Badge key={index} className="user-tag" color="primary">{tag}</Badge>
         )
-        })} 
+        })} else { return <div className="animated fadeIn text-center">Tag For Yourself Here</div>} 
     }
     checkdown(){
       this.setState({

@@ -14,13 +14,18 @@ import Select from 'react-select';
 
 function compare(property){
   return function(a,b){
-      var sortby = property
+      
+      var sortby = property;
       var value1 = a[property];
       var value2 = b[property];
+      if (property === 'firstName back'){
+        var value1 = a["firstName"];
+        var value2 = b["firstName"];
+      };
       if(sortby === 'firstName'|| sortby === 'Department'|| sortby ==='Major' ){
-        return value1.localeCompare(value2)
+        return value1.localeCompare(value2);
       } else if (sortby === 'firstName back' || sortby === 'Event_Date'){
-        return value2.localeCompare(value1)
+        return value2.localeCompare(value1);
       } else {
         return  value1 - value2;
       }
@@ -449,30 +454,33 @@ class Contact extends Component {
                {/* Main Table for display */}
                {(this.state.flag)?
                 <div>
-                <Fade timeout={200} in={true}>
-                  <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
-                      <thead className="thead-light">
-                      <tr>
-                        <th className="text-center"><i className="icon-people"></i></th>
-                        <th>Name</th>
-                        <th className="text-center">Group</th>
-                        <th className="text-center">Tags</th>
-                        <th className="text-center mr-2">Recent events</th>
-                        <th>Contacts</th>
-                        <th> </th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                        {(this.state.searched)?this.renderSearchData():this.renderTableData()}
-                      </tbody>
-                  </Table>
-                </Fade>
+                  <Fade timeout={200} in={true}>
+                  {(this.state.infos.length !== 0)?
+                    <Table hover responsive id="dataTable" className="table-outline mb-0 d-none d-sm-table">                  
+                        <thead className="thead-light">
+                        <tr>
+                          <th className="text-center"><i className="icon-people"></i></th>
+                          <th>Name</th>
+                          <th className="text-center">Group</th>
+                          <th className="text-center">Tags</th>
+                          <th className="text-center mr-2">Recent events</th>
+                          <th>Contacts</th>
+                          <th> </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {(this.state.searched)?this.renderSearchData():this.renderTableData()}
+                        </tbody>
+                    </Table>
+                    :<div className="animated fadeIn text-center">Add your first contact via the "+ Add Contact" on Navbar</div>}
+                  </Fade>
+
                 <Row className='mt-3'>
                   <Col md='3' className='pagi-header pl-5'>
                     {(this.state.searched)?
                     <strong>{`${indexOfFirstItem2 +1}- ${indexOfLastItem2} of ${this.state.searchlist.length} Contacts`}</strong>
                     :
-                    <strong>{`${indexOfFirstItem +1}- ${indexOfLastItem} of ${this.state.totalItem} Contacts`}</strong>}
+                    <strong>{(this.state.infos.length === 0)?null:`${indexOfFirstItem +1}- ${indexOfLastItem} of ${this.state.totalItem} Contacts`}</strong>}
                   </Col>
                   <Col md='9'>
                   {(this.state.searched)?
@@ -482,12 +490,16 @@ class Contact extends Component {
                                   totalPage={Math.ceil(this.state.searchlist.length / 10)}
                                   paginate={this.paginate}/>
                   :
-                  <Pagecomponent totalItem ={this.state.totalItem}
-                                currentPage={this.state.currentPage}
-                                itemsPerpage={this.state.itemsPerpage}
-                                totalPage={this.state.totalPage}
-                                paginate={this.paginate}/>}
-                  
+                  <div>
+                    {(this.state.infos.length === 0)?
+                      null
+                      :
+                      <Pagecomponent totalItem ={this.state.totalItem}
+                                    currentPage={this.state.currentPage}
+                                    itemsPerpage={this.state.itemsPerpage}
+                                    totalPage={this.state.totalPage}
+                                    paginate={this.paginate}/>}
+                  </div>}
                   </Col>
                 </Row>
                 </div>

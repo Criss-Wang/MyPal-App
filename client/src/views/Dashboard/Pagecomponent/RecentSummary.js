@@ -142,7 +142,7 @@ export class RecentSummary extends Component {
             )
         }
       })} else {
-        return (  <div className="animated fadeIn pt-1 text-center">Loading...</div>)
+        return (  <div className="animated fadeIn pt-5 pb-5 text-center">Please Add a Contact First</div>)
       }
     }
 

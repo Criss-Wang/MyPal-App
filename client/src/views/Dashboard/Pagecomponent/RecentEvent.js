@@ -171,6 +171,8 @@ export class RecentEvent extends Component {
   }
 
   individuals(arr){
+    if (arr.length === 0){return (  <div className="animated fadeIn pt-5 pb-5 text-center">Please Add a Event First</div>)}
+    else {
     return arr.map((Event,index) => {
       let tempdate = new Date(Event.Event_Date);
       let date = `${convertMonth(tempdate.getMonth())} ${tempdate.getDate().toString()}, ${convertDay(tempdate.getDay())}`
@@ -191,8 +193,11 @@ export class RecentEvent extends Component {
       </ListGroupItem>
       )
     })}
+  }
 
   groups(arr){
+    if (arr.length === 0){return (  <div className="animated fadeIn pt-5 pb-5 text-center">Please Add a Event First</div>)}
+    else {
     return arr.map((Event,index) => {
       let tempdate = new Date(Event.Event_Date);
       let date = `${convertMonth(tempdate.getMonth())} ${tempdate.getDate().toString()}, ${convertDay(tempdate.getDay())}`
@@ -208,7 +213,7 @@ export class RecentEvent extends Component {
           </div>
         </ListGroupItem>
       )
-    })
+    })}
   }
 
     render() {

@@ -214,18 +214,22 @@ class Groups extends Component {
             <Card className="card-accent-info shadow-sm mb-4 pb-0">
               <CardHeader>
               <i className="fa fa-users"></i> Network Groupings <span className='text-muted pl-1 amount'> {`(${this.state.totalItem} in total)`}</span>
-              <Pagecomponent currentPage={this.state.currentPage} totalPage={Math.ceil(this.state.GroupInfo.length / 8)} paginate={this.paginate}/>
-                <Fill1 getGroupInfo={this.getGroupInfo} />
+              {(this.state.GroupInfo.length === 0)?null:<Pagecomponent currentPage={this.state.currentPage} totalPage={Math.ceil(this.state.GroupInfo.length / 8)} paginate={this.paginate}/>}
+              <Fill1 getGroupInfo={this.getGroupInfo} />
               </CardHeader>
               <CardBody className='mb-2 pb-0'>
               {(this.state.flag)?
                 <div>
-                <Row>
-                  {this.renderTableData1()}
-                </Row>
-                <Row>
-                  {this.renderTableData2()}
-                </Row>
+                  {(this.state.GroupInfo.length !== 0)?
+                  <div>
+                    <Row>
+                      {this.renderTableData1()}
+                    </Row>
+                    <Row>
+                      {this.renderTableData2()}
+                    </Row>
+                  </div>
+                  :<div className="animated fadeIn mb-2 mt-2 text-center">Add your first group via the "Create New Group" Button Above</div>}
                 </div>
                 :
                 <div className='text-center mt-1'>
