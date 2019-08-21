@@ -176,7 +176,7 @@ errorDisplay(){
                       <Row>
                         <Col xs="12 text-left">
                           <Button color="primary" className="px-4" type='submit' >Login</Button>
-                          <Button color='secondary' className="btn-twitter nuslogin" ><a href='http://localhost:5000/auth/nus' className='NUS'><i className='fa fa-user mr-2'></i> NUS Login</a></Button>
+                          <Button color='secondary' className="btn-twitter nuslogin" ><a href='http://mypal-app.herokuapp.com/auth/nus' className='NUS'><i className='fa fa-user mr-2'></i> NUS Login</a></Button>
                           
                         </Col>
                       </Row>
