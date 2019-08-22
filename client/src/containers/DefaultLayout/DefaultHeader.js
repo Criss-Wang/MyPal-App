@@ -165,7 +165,6 @@ class DefaultHeader extends Component {
   }
 
   render() {
-
     const { children, ...attributes } = this.props;
     return (
       <React.Fragment>
@@ -215,8 +214,8 @@ class DefaultHeader extends Component {
           {/* User Admin */}
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav className='mr-3'>
-              <img src={(this.state.img === ''? '../../assets/img/defaultUser.png':this.state.img)} className="user-icon-header img-avatar" alt="admin@bootstrapmaster.com" /> <span id='reminder2'>
-              {(this.state.name === '' || this.state.name === ' ')?this.state.username:this.state.name}</span>
+              <img src={(this.state.img === ''? '../../assets/img/defaultUser.png':this.state.img)} className="user-icon-header img-avatar" alt="admin@bootstrapmaster.com" /> 
+              <span id='reminder2'>{(this.state.name === '' || this.state.name === ' ')?"Your name":this.state.name}</span>
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }} className='mt-2'>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
