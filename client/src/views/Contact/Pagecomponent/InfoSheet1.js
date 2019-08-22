@@ -328,7 +328,7 @@ export class InfoSheet extends Component {
                     {/*Image Uploading */}
                     <Col md='3' className='text-center mt-3'>
                         <img src={this.state.img ? this.state.img : '../../assets/img/defaultUser.png'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
-                        <Input type='file' name="file" className='inputhere' onChange={this.uploadImage}/>
+                        <Input type='file' id="img" name="file" className='inputhere' onChange={this.uploadImage}/>
                         <Label for="img" size ="sm" className='ml-0 mr-0 mt-0'>Upload Image</Label>
                         <h6>{this.state.loading?'loading':null}</h6>
                     </Col>
