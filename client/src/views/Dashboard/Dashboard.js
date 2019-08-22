@@ -4,8 +4,6 @@ import InfoCard from './Pagecomponent/InfoCard'
 import RecentAdd from './Pagecomponent/RecentAdd'
 import RecentEvent from './Pagecomponent/RecentEvent'
 import RecentSummary from './Pagecomponent/RecentSummary'
-import jwt_decode from 'jwt-decode';
-import axios from 'axios';
 
 class Dashboard extends Component {
   constructor(props) {

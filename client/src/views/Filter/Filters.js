@@ -9,6 +9,12 @@ import Select from 'react-select';
 const options = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
+    { value:'School of Computing',label:'School of Computing'},
+    { value:'Faculty of Science',label:'Faculty of Science'},
+    { value:'Business School',label:'Business School'},
+    { value:'Computer Engineering',label:'Computer Engineering'},
+    { value:'Computer Science',label:'Computer Science'},
+    { value:'Applied Mathematics',label:'Applied Mathematics'},
   ];
 
 class Filters extends Component {

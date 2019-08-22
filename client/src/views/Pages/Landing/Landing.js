@@ -30,7 +30,7 @@ export class Landing extends Component {
         return (
             <div className="app">
                 {/* Header with Login and registration buttons */}
-                <AppHeader fixed className='frameheader shadow'>
+                <AppHeader fixed className='frameheader2 shadow'>
                     <AppSidebarToggler className="d-lg-none" display="md" mobile />
                     {/* Shrinkable Brand */}
                     <AppNavbarBrand

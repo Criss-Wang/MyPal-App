@@ -40,12 +40,11 @@ class DefaultHeader extends Component {
   }
 
 //Extract User name and email up on successful login
-  componentDidMount () {
+  async componentWillMount () {
     const token = localStorage.usertoken
     const decoded = jwt_decode(token)
     const infoId = localStorage.selfInfoId
     const contactId = localStorage.contactId
-    console.log(contactId)
     axios.get(`personals/getPersonal/${infoId}`)
           .then(res => {
               const Name = `${res.data.firstName} ${res.data.lastName}`
@@ -55,9 +54,8 @@ class DefaultHeader extends Component {
                   username: decoded.username
               })
           });
-    axios.get(`contacts/getcontact/${contactId}`)
+    await axios.get(`contacts/getcontact/${contactId}`)
     .then(res=>{
-      console.log(res.data)
       this.setState({
         list:res.data,
       })
@@ -82,6 +80,9 @@ class DefaultHeader extends Component {
             });
         }
       }
+      })
+      this.setState({
+        reminderlist:this.state.reminderlist,
       })
     });
   }
@@ -166,7 +167,6 @@ class DefaultHeader extends Component {
   render() {
 
     const { children, ...attributes } = this.props;
-
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />

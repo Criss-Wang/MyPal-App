@@ -3,7 +3,7 @@ import { Badge, Button, Input, Modal, ModalBody,
           ModalFooter, ModalHeader, Col, Row, Form, FormGroup, Label} from 'reactstrap';
 import axios from 'axios';
 
-var majors = ['Applied Mathematics', 'Computer Science', 'Computer Engineering', 'a', 'b', 'c', 'd','e']
+var majors = ['Applied Mathematics', 'Computer Science', 'Computer Engineering', 'Information System','Electrical Engineering','Business Analytics','Chemical Engineering','Dentistry']
 var Depts = ["Faculty of Art & Social Science", "School of Computing", 'Business School',
              'Faculty of Science', 'Faculty of Dentistry', 'Faculty of Law', 'Faculty of Engineering',
              'School of Medicine', 'Yong  Siew Toh Conservatory of Music', 'School of Design and Environment'
@@ -304,7 +304,8 @@ export class InfoSheet extends Component {
                   {/*Image Uploading */}
                   <Col md='3' className='text-center mt-3'>
                       <img src={this.state.img ? this.state.img : '../../assets/img/defaultUser.png'} className="img-avatar mb-3" alt="admin@bootstrapmaster.com" />
-                      <Input type='file' name="file" className='inputhere' onChange={this.uploadImage}/>
+                      <Input type='file' id="img" name="file" className='inputhere' onChange={this.uploadImage}/>
+                      <Label for="img" size ="sm" className='ml-0 mr-0 mt-0'>Upload Image</Label>
                       <h6>{this.state.loading?'loading':null}</h6>
                   </Col>
                 </Row>

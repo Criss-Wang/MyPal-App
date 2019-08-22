@@ -22,7 +22,7 @@ var colorset = [
 var best = Obj => {
   var output = ['', 0]
   Object.entries(Obj).forEach(entry => {
-    if (entry[0] !== 'Others'){
+    if (entry[0] !== 'Not Specified'){
     if (entry[1] >= output[1]){
       output = entry
     }}
@@ -181,8 +181,8 @@ export class Analysis extends Component {
     var TagCounts = {};
     var GroupACount = {};
     var GroupSize = {};
-    var MajorSize = {"Others": 0};
-    var DeptSize = {"Others": 0};
+    var MajorSize = {"Not Specified": 0};
+    var DeptSize = {"Not Specified": 0};
     var NewEvent = ['','', 0];
     var Lg5Major = [[],[]];
     var Lg5Dept = [[],[]];
@@ -244,12 +244,14 @@ export class Analysis extends Component {
           }
           // Compute the Major pie chart
           if (contact.Major !== ''){
+           
             if (!(Object.keys(MajorSize).includes(contact.Major))){
+              
               MajorSize[contact.Major] = 0
             } 
             MajorSize[contact.Major] += 1
           } else {
-            MajorSize["Others"] += 1
+            MajorSize["Not Specified"] += 1
           }
           // Compute the Department pie chart
           if (contact.Department !== ''){
@@ -258,7 +260,7 @@ export class Analysis extends Component {
             } 
             DeptSize[contact.Department] += 1
           } else {
-            DeptSize["Others"] += 1
+            DeptSize["Not Specified"] += 1
           }
         });
 

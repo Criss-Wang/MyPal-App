@@ -19,8 +19,8 @@ function compare(property){
       var value1 = a[property];
       var value2 = b[property];
       if (property === 'firstName back'){
-        var value1 = a["firstName"];
-        var value2 = b["firstName"];
+        value1 = a["firstName"];
+        value2 = b["firstName"];
       };
       if(sortby === 'firstName'|| sortby === 'Department'|| sortby ==='Major' ){
         return value1.localeCompare(value2);
@@ -35,6 +35,12 @@ function compare(property){
 const options = [
   { value: 'Female', label: 'Female' },
   { value: 'Male', label: 'Male' },
+  { value:'School of Computing',label:'School of Computing'},
+  { value:'Faculty of Science',label:'Faculty of Science'},
+  { value:'Business School',label:'Business School'},
+  { value:'Computer Engineering',label:'Computer Engineering'},
+  { value:'Computer Science',label:'Computer Science'},
+  { value:'Applied Mathematics',label:'Applied Mathematics'},
 ];
 
 const exportlist = [
@@ -99,15 +105,16 @@ class Contact extends Component {
     if (selectedOption !== null && selectedOption.length !== 0){
       axios.get(`contacts/getcontact/${localStorage.contactId}`)
         .then(res=>{
-          var newlist = []
+          var newlist = res.data.slice();
           selectedOption.map((searchtag)=> {
             res.data.map((item) => {
                 const { Department, YOS, Major, sex} = item
-                if(sex === searchtag.value || Department === searchtag.value || YOS === searchtag.value || Major === searchtag.value){
-                    if(newlist.indexOf(item) === -1){
-                      newlist.push(item)
-                    }
-                }
+                if(sex != searchtag.value && Department != searchtag.value && YOS != searchtag.value && Major != searchtag.value){
+                  var index = newlist.indexOf(item)
+                  if(index  > -1){
+                    newlist.splice(index,1)
+                  }
+              }
             })
           });
           this.setState({
