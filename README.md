@@ -1,10 +1,11 @@
 ## MyPal
 * A web application for relationship management for NUS Student
-* It is a Gemini Level project from National University of Singapore CP2106 course.
+* It is an Apollo 11 Level (accomplished) project from the Orbital (software development) project held by School of Computing.
+* Website address: https://mypal-app.herokuapp.com/
 
 ## Team Info
 * Name: RichardoMLu
-* Members: Wang Zhenlin (Applied Mathematics Year 1) & Ren Hao (Computer Engineering Year 1)
+* Members: Wang Zhenlin (Applied Mathematics Year 2) & Ren Hao (Computer Engineering Year 2)
 
 ## Problem Motivation
 * University is often one of the most valuable place for both students and the stuffs here. Wetry to connect with others and exchange precious resources in this place. However, as our social network expands, it becomes increasingly hard to manage such large network. After many hours of study and working, our human brain is unlikely to keep track of every detail of the events had and people met. Moreover, the diverse social media channels also make communcation less direct and effective. Usually, we use handwritten contact book to record information of our friends. Yet it is pretty tedious and tiresome. Thus, it would be great if we can conveniently maintain healthy relationship online and even find new opportunities and resources through the relationship we build.
@@ -27,8 +28,6 @@
 4. Weekly/Monthly Report
     * Summary about the activities recorded on the website this week
     * Reminder about friends' birthday and people they haven't contacted for long
-5. Friends Invitation (can be disabled) 
-    * Allow the user to 'tag' himself/herself so that people who share the same tag can add each other's information and potentially become new friends.
 
 
 ## License
