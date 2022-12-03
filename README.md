@@ -1,6 +1,6 @@
 ## MyPal
 * A web application for relationship management for NUS Student
-* It is an Apollo 11 Level (accomplished) project from the Orbital (software development) project held by School of Computing.
+* It is an Apollo 11 Level (Advanced) project from the Orbital (software development) project held by School of Computing.
 * Website address: https://mypal-app.herokuapp.com/
 
 ## Team Info
